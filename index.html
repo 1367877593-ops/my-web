@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的个人网站</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#home" class="nav-logo">MySite</a>
+      <ul class="nav-menu">
+        <li><a href="#home">首页</a></li>
+        <li><a href="#about">关于</a></li>
+        <li><a href="#skills">技能</a></li>
+        <li><a href="#projects">项目</a></li>
+        <li><a href="#contact">联系</a></li>
+      </ul>
+      <div class="nav-toggle" id="navToggle">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 首页/Hero -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <p class="hero-greeting">👋 你好，我是</p>
+      <h1 class="hero-name">你的名字</h1>
+      <p class="hero-title">全栈开发工程师</p>
+      <p class="hero-desc">热爱技术，专注于构建优雅、高效的 Web 应用</p>
+      <div class="hero-buttons">
+        <a href="#projects" class="btn btn-primary">查看作品</a>
+        <a href="#contact" class="btn btn-outline">联系我</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-avatar"></div>
+    </div>
+  </section>
+
+  <!-- 关于我 -->
+  <section id="about" class="about">
+    <div class="container">
+      <h2 class="section-title">关于我</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <p>我是一名充满热情的全栈开发工程师，拥有 X 年的 Web 开发经验。擅长使用现代前端框架和后端技术构建高性能、用户友好的应用程序。</p>
+          <p>我相信代码的力量可以改变世界，始终追求写出简洁、可维护、高质量的代码。在业余时间，我喜欢探索新技术、参与开源项目，并分享技术文章。</p>
+          <div class="about-info">
+            <div class="info-item"><span>📧</span> example@email.com</div>
+            <div class="info-item"><span>📍</span> 中国·北京</div>
+            <div class="info-item"><span>🎓</span> 计算机科学与技术</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 技能 -->
+  <section id="skills" class="skills">
+    <div class="container">
+      <h2 class="section-title">技能专长</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-icon">🎨</div>
+          <h3>前端开发</h3>
+          <p>HTML5 / CSS3 / JavaScript / React / Vue.js / TypeScript</p>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">⚙️</div>
+          <h3>后端开发</h3>
+          <p>Node.js / Python / Java / RESTful API / GraphQL</p>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">🗄️</div>
+          <h3>数据库</h3>
+          <p>MySQL / PostgreSQL / MongoDB / Redis</p>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">🛠️</div>
+          <h3>工具 & DevOps</h3>
+          <p>Git / Docker / CI/CD / AWS / Linux</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 项目 -->
+  <section id="projects" class="projects">
+    <div class="container">
+      <h2 class="section-title">项目作品</h2>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-img project-img-1"></div>
+          <div class="project-info">
+            <h3>电商平台</h3>
+            <p>一个全栈电商网站，支持商品浏览、购物车、在线支付等功能。</p>
+            <div class="project-tags">
+              <span>React</span><span>Node.js</span><span>MongoDB</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-img project-img-2"></div>
+          <div class="project-info">
+            <h3>任务管理应用</h3>
+            <p>团队协作任务管理工具，支持看板视图、实时同步和数据分析。</p>
+            <div class="project-tags">
+              <span>Vue.js</span><span>Python</span><span>PostgreSQL</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-img project-img-3"></div>
+          <div class="project-info">
+            <h3>个人博客系统</h3>
+            <p>基于 Markdown 的静态博客，支持标签分类、搜索和 RSS 订阅。</p>
+            <div class="project-tags">
+              <span>Next.js</span><span>TypeScript</span><span>MDX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系 -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2 class="section-title">联系我</h2>
+      <p class="contact-subtitle">有任何问题或合作意向，欢迎随时联系</p>
+      <form class="contact-form" id="contactForm">
+        <div class="form-row">
+          <input type="text" placeholder="你的名字" required>
+          <input type="email" placeholder="你的邮箱" required>
+        </div>
+        <input type="text" placeholder="主题">
+        <textarea rows="5" placeholder="你的留言..." required></textarea>
+        <button type="submit" class="btn btn-primary">发送消息</button>
+      </form>
+      <div class="social-links">
+        <a href="#" class="social-link" title="GitHub">🐙</a>
+        <a href="#" class="social-link" title="LinkedIn">💼</a>
+        <a href="#" class="social-link" title="Twitter">🐦</a>
+        <a href="#" class="social-link" title="微信">💬</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 底部 -->
+  <footer class="footer">
+    <p>&copy; 2026 My Personal Site. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
