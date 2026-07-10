@@ -48,8 +48,7 @@ if (!prefersReducedMotion) {
 
   // 为需要动画的元素添加初始状态和观察
   const revealElements = document.querySelectorAll(
-    '.skill-card, .project-item, .about-grid, .contact-form, .section-header'
-  );
+      '.skill-card, .project-card, .article-card, .about-content, .contact-form'
 
   revealElements.forEach((el) => {
     el.classList.add('reveal');

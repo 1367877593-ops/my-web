@@ -544,6 +544,111 @@ section {
   letter-spacing: -0.03em;
 }
 
+/* === Articles === */
+.articles {
+  background: var(--off-white);
+}
+
+.articles-subtitle {
+  text-align: center;
+  color: var(--gray);
+  font-size: 0.9rem;
+  margin-top: -40px;
+  margin-bottom: 48px;
+}
+
+.articles-list {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.article-card {
+  border-bottom: 1px solid var(--border);
+}
+
+.article-card:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.article-card a {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 28px 0;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.25s ease;
+}
+
+.article-card a:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.article-card a:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: -2px;
+}
+
+.article-number {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--light-gray);
+  letter-spacing: -0.02em;
+  min-width: 36px;
+  flex-shrink: 0;
+}
+
+.article-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.article-source {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--gray);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.article-content h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--black);
+  margin: 4px 0 4px;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.article-category {
+  font-size: 0.8rem;
+  color: var(--gray);
+  margin: 0;
+}
+
+.article-link-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--dark-gray);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.article-link-text span {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.article-card a:hover .article-link-text {
+  color: var(--black);
+}
+
+.article-card a:hover .article-link-text span {
+  transform: translate(3px, -3px);
+}
+
 /* === Contact === */
 .contact {
   background: var(--black);
@@ -774,6 +879,11 @@ section {
     grid-template-columns: 1fr;
   }
 
+  .article-card a {
+    gap: 20px;
+    padding: 22px 0;
+  }
+
   section {
     padding: 80px 0;
   }
@@ -880,5 +990,34 @@ section {
   .social-links {
     gap: 20px;
     flex-wrap: wrap;
+  }
+
+  .articles-subtitle {
+    margin-top: -28px;
+    margin-bottom: 32px;
+  }
+
+  .article-card a {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    padding: 18px 0;
+  }
+
+  .article-number {
+    font-size: 1.3rem;
+    min-width: 24px;
+  }
+
+  .article-content {
+    flex-basis: calc(100% - 40px);
+    order: 1;
+  }
+
+  .article-content h3 {
+    font-size: 1rem;
+  }
+
+  .article-link-text {
+    margin-left: auto;
   }
 }
