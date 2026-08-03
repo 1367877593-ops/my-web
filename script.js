@@ -5,14 +5,25 @@ const seg = (p, a, b) => clamp((p - a) / (b - a));
 const easeInOut = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const lerp = (a, b, t) => a + (b - a) * t;
 
-/* ── loader：首屏视频可播即撤，最长兜底 3.5s ───────────────── */
-const loader = document.getElementById('loader'), hideLoader = () => loader?.classList.add('hide');
+/* ── 开场遮罩：视频可播即开始退场，最长兜底 3.5s ─────────────
+   退场动画 2s（融合 1.05s → 闪光 → 镂空放大 0.95s），跑完移除节点。 */
+const intro = document.getElementById('intro');
 const heroVids = [...document.querySelectorAll('.hero-media video')], heroVideo = heroVids[0];
+let introDone = false;
+function exitIntro() {
+  if (introDone || !intro) return;
+  introDone = true;
+  if (reduced) { intro.classList.add('gone'); return; }
+  intro.classList.add('exit');
+  setTimeout(() => intro.classList.add('gone'), 2050);
+}
+/* 至少露脸 600ms，否则秒开时开场一闪而过反而像闪屏 */
+const readyToExit = () => setTimeout(exitIntro, 600);
 if (heroVideo) {
-  if (heroVideo.readyState >= 3) hideLoader();
-  else { heroVideo.addEventListener('canplay', hideLoader, { once: true }); heroVideo.addEventListener('error', hideLoader, { once: true }); }
-} else addEventListener('load', hideLoader);
-setTimeout(hideLoader, 3500);
+  if (heroVideo.readyState >= 3) readyToExit();
+  else { heroVideo.addEventListener('canplay', readyToExit, { once: true }); heroVideo.addEventListener('error', readyToExit, { once: true }); }
+} else addEventListener('load', readyToExit);
+setTimeout(exitIntro, 3500);
 
 /* ── 顶栏 + 右侧刻度尺 ─────────────────────────────────────── */
 const topbar = document.getElementById('topbar'), rail = document.getElementById('rail');

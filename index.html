@@ -1,6 +1,27 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="张昕煜｜AI 产品经理与法律科技探索者"><title>◤ XINYU // AI PRODUCT ◢</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body>
 
-<div class="loader" id="loader"><div class="loader-logo">XINYU</div><p>LOADING<span>…</span></p></div>
+<!-- 开场：橙色满屏 → 字母液态融合 → 闪光 → 融合后的 X 变成镂空洞放大，露出人物 -->
+<div class="intro" id="intro">
+  <svg class="intro-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="11" result="b"/><feColorMatrix in="b" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -12"/></filter>
+      <mask id="cut">
+        <rect x="0" y="0" width="1000" height="600" fill="#fff"/>
+        <text id="cutX" x="500" y="300" text-anchor="middle" dominant-baseline="central" fill="#000">X</text>
+      </mask>
+    </defs>
+    <rect class="intro-surface" x="0" y="0" width="1000" height="600" mask="url(#cut)"/>
+    <g class="intro-letters" filter="url(#goo)">
+      <text class="l" style="--dx:-244px" x="500" y="300" text-anchor="middle" dominant-baseline="central">X</text>
+      <text class="l" style="--dx:-122px" x="500" y="300" text-anchor="middle" dominant-baseline="central">I</text>
+      <text class="l" style="--dx:0px"    x="500" y="300" text-anchor="middle" dominant-baseline="central">N</text>
+      <text class="l" style="--dx:122px"  x="500" y="300" text-anchor="middle" dominant-baseline="central">Y</text>
+      <text class="l" style="--dx:244px"  x="500" y="300" text-anchor="middle" dominant-baseline="central">U</text>
+    </g>
+    <circle class="intro-flash" cx="500" cy="300" r="1"/>
+  </svg>
+  <p class="intro-dots">LOADING<span>.</span><span>.</span><span>.</span></p>
+</div>
 
 <div class="dots" aria-hidden="true"></div>
 <div class="contours" aria-hidden="true"></div>
