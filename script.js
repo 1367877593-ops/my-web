@@ -172,6 +172,39 @@ if (deck) {
   paintDeck();
 }
 
+/* ── NOTES：由 notes.js 的数据渲染，首页取前 N 条，列表页取全部 ── */
+const notesList = document.getElementById('notesList');
+if (notesList) {
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const all = Array.isArray(window.NOTES) ? window.NOTES : [];
+  const limit = Number(notesList.dataset.limit) || all.length;
+  const shown = all.slice(0, limit);
+  if (!shown.length) {
+    notesList.className = 'notes-empty';
+    notesList.innerHTML = '<p>第一篇正在写。</p><span>COMING SOON</span>';
+  } else {
+    notesList.innerHTML = shown.map(n => `<a class="note" href="notes/${esc(n.slug)}.html">
+<time>${esc(n.date)}</time>
+<div><h3>${esc(n.title)}</h3>${n.excerpt ? `<p>${esc(n.excerpt)}</p>` : ''}</div>
+<div class="tail">${n.tag ? `<em>${esc(n.tag)}</em>` : ''}<i>↗</i></div></a>`).join('');
+  }
+  /* 只有被截断时才显示「全部文章」 */
+  const more = document.getElementById('notesMore');
+  if (more && all.length > shown.length) more.hidden = false;
+}
+
+/* ── 文章页阅读进度条 ─────────────────────────────────────── */
+const artProg = document.querySelector('.artprog');
+if (artProg) {
+  const paintProg = () => {
+    const total = document.documentElement.scrollHeight - innerHeight;
+    artProg.style.width = (total > 0 ? clamp(scrollY / total) * 100 : 0) + '%';
+  };
+  addEventListener('scroll', paintProg, { passive: true });
+  addEventListener('resize', paintProg);
+  paintProg();
+}
+
 /* ── 入场 ──────────────────────────────────────────────────── */
 if (!reduced) {
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: .08, rootMargin: '0px 0px -40px' });

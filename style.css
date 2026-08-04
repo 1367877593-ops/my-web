@@ -19,6 +19,8 @@ body{margin:0;color:var(--ink);background:var(--bg);font-family:var(--font-body)
 a{color:inherit;text-decoration:none}
 h1,h2,h3{margin:0;font-family:var(--font-display);font-weight:700;letter-spacing:-.02em}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+/* 类选择器的 display 会盖过 [hidden] 的默认样式，这里补回来 */
+[hidden]{display:none!important}
 
 /* 背景层：点阵 + 等高线 */
 .dots,.contours{position:fixed;inset:0;z-index:0;pointer-events:none}
@@ -70,6 +72,11 @@ h1,h2,h3{margin:0;font-family:var(--font-display);font-weight:700;letter-spacing
 .topbar.scrolled{padding-top:13px;padding-bottom:13px}
 .topbar>*{position:relative;z-index:1}
 .wordmark{font:700 clamp(19px,1.8vw,26px)/1 var(--font-display);letter-spacing:.02em}
+.topbar-right{display:flex;align-items:center;gap:22px}
+.topbar-link{position:relative;padding:6px 0;font:600 12px var(--font-mono);letter-spacing:.1em;color:var(--muted-ink);transition:color .2s}
+.topbar-link::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.topbar-link:hover{color:var(--ink)}
+.topbar-link:hover::after{transform:scaleX(1)}
 .lang{display:inline-flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:99px;padding:11px 20px;background:rgba(255,255,255,.55);font:600 12px var(--font-mono);letter-spacing:.14em;color:var(--ink);cursor:pointer;transition:.25s}
 .lang i{font-style:normal;color:var(--accent)}
 .lang:hover{border-color:var(--accent)}
@@ -147,6 +154,64 @@ h1,h2,h3{margin:0;font-family:var(--font-display);font-weight:700;letter-spacing
 .deck-nav:hover{border-color:var(--accent);color:var(--accent)}
 .deck-idx{font:600 12px var(--font-mono);letter-spacing:.12em;color:var(--muted-ink)}
 
+/* ============ NOTES：索引列表 ============
+   刻意不做成卡片 —— 站内已有三处卡片，列表能形成对比，
+   而且篇数变多也不用改结构。摘要和标签都允许缺省。 */
+.notes{display:grid;border-top:1px solid var(--line)}
+.note{display:grid;grid-template-columns:132px 1fr auto;gap:32px;align-items:baseline;padding:30px 0;border-bottom:1px solid var(--line);transition:padding .3s}
+.note time{font:500 12px var(--font-mono);letter-spacing:.08em;color:var(--muted-ink);white-space:nowrap}
+.note h3{font-size:clamp(20px,2.1vw,30px);font-family:var(--font-cn);font-weight:600;letter-spacing:0;transition:color .25s}
+.note p{margin:10px 0 0;font-family:var(--font-cn);font-size:14px;line-height:1.75;color:var(--muted-ink);max-width:62ch}
+.note .tail{display:flex;align-items:center;gap:18px;white-space:nowrap}
+.note em{font:500 11px var(--font-mono);font-style:normal;letter-spacing:.08em;color:var(--muted-ink)}
+.note i{font-style:normal;font-size:20px;color:var(--accent);opacity:0;transform:translateX(-6px);transition:.25s}
+.note:hover{padding-left:16px}
+.note:hover h3{color:var(--accent)}
+.note:hover i{opacity:1;transform:none}
+.notes-more{margin-top:34px;display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border:1px solid var(--line);border-radius:99px;font:600 11px var(--font-mono);letter-spacing:.1em;transition:.25s}
+.notes-more:hover{border-color:var(--accent);color:var(--accent)}
+.notes-empty{padding:56px 0;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.notes-empty p{margin:0;font-family:var(--font-cn);font-size:15px;color:var(--muted-ink)}
+.notes-empty span{display:block;margin-top:10px;font:500 11px var(--font-mono);letter-spacing:.12em;color:var(--accent)}
+
+/* ============ 文章页 ============ */
+.artbar{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px var(--gut);background:rgba(245,244,240,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.artbar a{font:600 11px var(--font-mono);letter-spacing:.1em;color:var(--muted-ink);transition:color .2s}
+.artbar a:hover{color:var(--accent)}
+.artbar .wordmark{font:700 20px var(--font-display);color:var(--ink);letter-spacing:.02em}
+.artprog{position:fixed;z-index:101;left:0;top:0;height:2px;width:0;background:var(--accent)}
+.post{max-width:760px;margin:0 auto;padding:clamp(48px,8vh,96px) var(--gut) 40px;position:relative;z-index:1}
+.post-meta{display:flex;flex-wrap:wrap;gap:10px 18px;font:500 11px var(--font-mono);letter-spacing:.1em;color:var(--muted-ink)}
+.post-meta b{color:var(--accent);font-weight:600}
+.post h1{margin:22px 0 0;font-size:clamp(30px,4.4vw,54px);line-height:1.18;font-family:var(--font-cn);font-weight:700;letter-spacing:-.01em}
+.post-lead{margin:26px 0 0;font-family:var(--font-cn);font-size:clamp(16px,1.4vw,19px);line-height:1.85;color:#3a382f}
+.post-rule{margin:44px 0;height:1px;background:var(--line)}
+.post-body{font-family:var(--font-cn);font-size:17px;line-height:1.95;color:#25231f}
+.post-body p{margin:0 0 26px}
+.post-body h2{margin:52px 0 18px;padding-left:16px;position:relative;font-size:24px;font-family:var(--font-cn);font-weight:700}
+.post-body h2::before{content:"";position:absolute;left:0;top:.28em;bottom:.28em;width:3px;background:var(--accent)}
+.post-body blockquote{margin:34px 0;padding:4px 0 4px 22px;border-left:2px solid var(--accent);font-size:18px;line-height:1.85;color:#3a382f}
+.post-body ul,.post-body ol{margin:0 0 26px;padding-left:20px}
+.post-body li{margin:0 0 10px}
+.post-body a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.post-body code{font:500 14px var(--font-mono);background:var(--surface);padding:2px 6px;border-radius:5px}
+.post-body figure{margin:36px 0}
+.post-body img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:16px}
+.post-body figcaption{margin-top:12px;text-align:center;font:500 12px var(--font-mono);letter-spacing:.06em;color:var(--muted-ink)}
+.post-tags{display:flex;flex-wrap:wrap;gap:10px;margin:44px 0 0}
+.post-tags span{padding:9px 16px;border:1px solid var(--line);border-radius:99px;font:500 11px var(--font-mono);letter-spacing:.06em;color:var(--muted-ink)}
+.post-nav{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 var(--gut) clamp(60px,10vh,120px);display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.post-nav a{padding:26px;border:1px solid var(--line);border-radius:18px;background:var(--card);transition:.25s}
+.post-nav a:hover{border-color:var(--accent)}
+.post-nav small{display:block;font:600 10px var(--font-mono);letter-spacing:.14em;color:var(--muted-ink)}
+.post-nav strong{display:block;margin-top:10px;font-family:var(--font-cn);font-size:15px;font-weight:600;line-height:1.6}
+.post-nav a:last-child{text-align:right}
+
+/* ============ 全部文章列表页 ============ */
+.notes-page{position:relative;z-index:1;max-width:var(--max-w);margin:0 auto;padding:clamp(60px,10vh,120px) var(--gut)}
+.notes-page .head{text-align:left}
+.notes-page .head p{margin-left:0}
+
 /* ============ 协作者：分组网格 ============ */
 .group-label{display:flex;align-items:center;gap:18px;margin:0 0 18px}
 .group-label::before,.group-label::after{content:"";flex:1;height:1px;background:var(--line)}
@@ -199,6 +264,12 @@ footer{position:relative;z-index:1;padding:26px var(--gut);background:var(--ink)
   .deck p{font-size:13.5px}
   .deck-tag,.deck-link{position:static;align-self:flex-start;margin-top:16px}
   .contact-list dd{font-size:12.5px}
+  .note{grid-template-columns:1fr;gap:8px;padding:24px 0}
+  .note .tail{margin-top:12px}
+  .note i{opacity:1;transform:none}
+  .post-body{font-size:16px;line-height:1.9}
+  .post-nav{grid-template-columns:1fr}
+  .post-nav a:last-child{text-align:left}
   footer span:last-child{display:none}
 }
 @media(prefers-reduced-motion:reduce){

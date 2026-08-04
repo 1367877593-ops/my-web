@@ -28,7 +28,10 @@
 
 <header class="topbar" id="topbar">
   <a class="wordmark" href="#home">XINYU</a>
-  <button class="lang" type="button" aria-label="切换语言"><i>⇄</i> CN</button>
+  <div class="topbar-right">
+    <a class="topbar-link" href="#notes">NOTES</a>
+    <button class="lang" type="button" aria-label="切换语言"><i>⇄</i> CN</button>
+  </div>
 </header>
 
 <nav class="rail" id="rail" aria-label="阅读进度"></nav>
@@ -105,6 +108,15 @@
   </div>
 </section>
 
+<!-- ── NOTES：索引列表，数据来自 notes.js ─────────────────── -->
+<section class="panel" id="notes">
+  <div class="panel-in">
+    <header class="head"><h2>NOTES</h2><p>我在这里记录想法、复盘和还没想清楚的问题。不定期更新。</p></header>
+    <div class="notes" id="notesList" data-limit="4"></div>
+    <a class="notes-more" id="notesMore" href="notes.html" hidden>全部文章 <span>→</span></a>
+  </div>
+</section>
+
 <!-- ── COLLABORATORS：分组网格 ────────────────────────────── -->
 <section class="panel" id="collaborators">
   <div class="panel-in">
@@ -139,4 +151,4 @@
 </main>
 
 <footer><span>© 2026 ZHANG XINYU</span><span>THANK YOU FOR VISITING</span></footer>
-<script src="script.js"></script></body></html>
+<script src="notes.js"></script><script src="script.js"></script></body></html>
