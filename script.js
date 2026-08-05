@@ -117,37 +117,6 @@ else if (heroVids.length === 2) {
 }
 else if (heroVideo) play(heroVideo);
 
-/* ── 能力：3D coverflow ────────────────────────────────────── */
-const flowStage = document.getElementById('flowStage'), flowDots = document.getElementById('flowDots');
-if (flowStage) {
-  const cards = [...flowStage.children], n = cards.length;
-  let active = 0;
-  cards.forEach((_, i) => { const d = document.createElement('i'); d.addEventListener('click', () => go(i)); flowDots.appendChild(d); });
-  const dots = [...flowDots.children];
-  function paintFlow() {
-    cards.forEach((c, i) => {
-      let off = i - active;
-      if (off > n / 2) off -= n;
-      if (off < -n / 2) off += n;
-      const a = Math.abs(off);
-      c.style.transform = `translate(-50%,-50%) translateX(${off * 58}%) translateZ(${-a * 170}px) rotateY(${-off * 26}deg) scale(${1 - a * .07})`;
-      c.style.opacity = a > 2 ? 0 : a === 0 ? 1 : a === 1 ? .55 : .22;
-      c.style.filter = a === 0 ? 'none' : `blur(${a * 3}px)`;
-      c.style.zIndex = String(20 - a);
-      c.setAttribute('aria-hidden', a === 0 ? 'false' : 'true');
-    });
-    dots.forEach((d, i) => d.classList.toggle('on', i === active));
-  }
-  const go = i => { active = (i + n) % n; paintFlow(); };
-  document.querySelector('.flow-nav.prev').addEventListener('click', () => go(active - 1));
-  document.querySelector('.flow-nav.next').addEventListener('click', () => go(active + 1));
-  document.getElementById('flow').addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft') go(active - 1);
-    if (e.key === 'ArrowRight') go(active + 1);
-  });
-  paintFlow();
-}
-
 /* ── 项目：堆叠卡组 ────────────────────────────────────────── */
 const deck = document.getElementById('deck'), deckIdx = document.getElementById('deckIdx');
 if (deck) {
@@ -172,25 +141,62 @@ if (deck) {
   paintDeck();
 }
 
-/* ── NOTES：由 notes.js 的数据渲染，首页取前 N 条，列表页取全部 ── */
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const allNotes = Array.isArray(window.NOTES) ? window.NOTES : [];
+
+/* ── START HERE：三个固定角色槽位，picks 里没填的渲染成虚线空槽 ── */
+const picksBox = document.getElementById('picks');
+if (picksBox) {
+  const ROLES = [
+    { key: 'sharp', label: '最锋利的观点', hint: '一篇敢下判断的文章，承担「立场」。' },
+    { key: 'deep', label: '最硬的拆解', hint: '一篇有分析垫底的拆解，承担「能力」。' },
+    { key: 'human', label: '最有人味的', hint: '一篇生活切片，承担「温度」。' }
+  ];
+  const picks = (window.PICKS && typeof window.PICKS === 'object') ? window.PICKS : {};
+  picksBox.innerHTML = ROLES.map(r => {
+    const slug = picks[r.key];
+    const n = slug && allNotes.find(x => x.slug === slug);
+    if (!n) return `<div class="pick empty"><small>${r.label}</small><p class="slot"><b>待填充</b>${r.hint}</p></div>`;
+    return `<a class="pick" href="notes/${esc(n.slug)}.html"><small>${r.label}</small><h3>${esc(n.title)}</h3>${n.excerpt ? `<p>${esc(n.excerpt)}</p>` : ''}<em>${n.tag ? esc(n.tag) + ' · ' : ''}${esc(n.date)}</em></a>`;
+  }).join('');
+}
+
+/* ── NOTES：首页取前 N 条并带分类筛选，列表页取全部 ───────────── */
 const notesList = document.getElementById('notesList');
 if (notesList) {
-  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const all = Array.isArray(window.NOTES) ? window.NOTES : [];
-  const limit = Number(notesList.dataset.limit) || all.length;
-  const shown = all.slice(0, limit);
-  if (!shown.length) {
-    notesList.className = 'notes-empty';
-    notesList.innerHTML = '<p>第一篇正在写。</p><span>COMING SOON</span>';
-  } else {
-    notesList.innerHTML = shown.map(n => `<a class="note" href="notes/${esc(n.slug)}.html">
+  const limit = Number(notesList.dataset.limit) || allNotes.length;
+  const render = list => {
+    notesList.innerHTML = list.map(n => `<a class="note" href="notes/${esc(n.slug)}.html">
 <time>${esc(n.date)}</time>
 <div><h3>${esc(n.title)}</h3>${n.excerpt ? `<p>${esc(n.excerpt)}</p>` : ''}</div>
 <div class="tail">${n.tag ? `<em>${esc(n.tag)}</em>` : ''}<i>↗</i></div></a>`).join('');
+  };
+  if (!allNotes.length) {
+    notesList.className = 'notes-empty';
+    notesList.innerHTML = '<p>第一篇正在写。</p><span>COMING SOON</span>';
+  } else {
+    const more = document.getElementById('notesMore');
+    const apply = tag => {
+      const list = tag ? allNotes.filter(n => n.tag === tag) : allNotes;
+      render(list.slice(0, limit));
+      if (more) more.hidden = list.length <= limit;
+    };
+    /* 分类按钮由数据里实际出现过的 tag 生成，没有的分类不会显示 */
+    const cats = document.getElementById('cats');
+    if (cats) {
+      const tags = [...new Set(allNotes.map(n => n.tag).filter(Boolean))];
+      cats.innerHTML = `<button class="on" data-tag="">全部 <i>${allNotes.length}</i></button>` +
+        tags.map(t => `<button data-tag="${esc(t)}">${esc(t)} <i>${allNotes.filter(n => n.tag === t).length}</i></button>`).join('');
+      cats.hidden = false;
+      cats.addEventListener('click', e => {
+        const b = e.target.closest('button');
+        if (!b) return;
+        [...cats.children].forEach(x => x.classList.toggle('on', x === b));
+        apply(b.dataset.tag);
+      });
+    }
+    apply('');
   }
-  /* 只有被截断时才显示「全部文章」 */
-  const more = document.getElementById('notesMore');
-  if (more && all.length > shown.length) more.hidden = false;
 }
 
 /* ── 文章页阅读进度条 ─────────────────────────────────────── */
