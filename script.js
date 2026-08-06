@@ -161,42 +161,46 @@ if (picksBox) {
   }).join('');
 }
 
-/* ── NOTES：首页取前 N 条并带分类筛选，列表页取全部 ───────────── */
+/* ── NOTES：固定四分类筛选 + 列表，首页取前 N 条，列表页取全部 ──
+   分类按钮来自 notes.js 的 CATEGORIES，一篇文章都没有时也照常显示，
+   让四类框架本身成为「这个站会写什么」的说明。 */
 const notesList = document.getElementById('notesList');
 if (notesList) {
-  const limit = Number(notesList.dataset.limit) || allNotes.length;
-  const render = list => {
-    notesList.innerHTML = list.map(n => `<a class="note" href="notes/${esc(n.slug)}.html">
+  const limit = Number(notesList.dataset.limit) || Infinity;
+  const more = document.getElementById('notesMore');
+  const emptyBox = document.getElementById('notesEmpty');
+  const cats = document.getElementById('cats');
+  const CATS = Array.isArray(window.CATEGORIES) ? window.CATEGORIES : [];
+  const countOf = tag => allNotes.filter(n => n.tag === tag).length;
+  /* 计数为 0 时不显示角标，避免空站上挂一排 0 */
+  const badge = n => n ? ` <i>${n}</i>` : '';
+
+  const apply = tag => {
+    const list = tag ? allNotes.filter(n => n.tag === tag) : allNotes;
+    const shown = list.slice(0, limit);
+    notesList.hidden = !shown.length;
+    if (emptyBox) {
+      emptyBox.hidden = !!shown.length;
+      if (!shown.length) emptyBox.querySelector('p').textContent = tag ? '这个分类还在攒。' : '第一篇正在写。';
+    }
+    if (shown.length) notesList.innerHTML = shown.map(n => `<a class="note" href="notes/${esc(n.slug)}.html">
 <time>${esc(n.date)}</time>
 <div><h3>${esc(n.title)}</h3>${n.excerpt ? `<p>${esc(n.excerpt)}</p>` : ''}</div>
 <div class="tail">${n.tag ? `<em>${esc(n.tag)}</em>` : ''}<i>↗</i></div></a>`).join('');
+    if (more) more.hidden = list.length <= shown.length;
   };
-  if (!allNotes.length) {
-    notesList.className = 'notes-empty';
-    notesList.innerHTML = '<p>第一篇正在写。</p><span>COMING SOON</span>';
-  } else {
-    const more = document.getElementById('notesMore');
-    const apply = tag => {
-      const list = tag ? allNotes.filter(n => n.tag === tag) : allNotes;
-      render(list.slice(0, limit));
-      if (more) more.hidden = list.length <= limit;
-    };
-    /* 分类按钮由数据里实际出现过的 tag 生成，没有的分类不会显示 */
-    const cats = document.getElementById('cats');
-    if (cats) {
-      const tags = [...new Set(allNotes.map(n => n.tag).filter(Boolean))];
-      cats.innerHTML = `<button class="on" data-tag="">全部 <i>${allNotes.length}</i></button>` +
-        tags.map(t => `<button data-tag="${esc(t)}">${esc(t)} <i>${allNotes.filter(n => n.tag === t).length}</i></button>`).join('');
-      cats.hidden = false;
-      cats.addEventListener('click', e => {
-        const b = e.target.closest('button');
-        if (!b) return;
-        [...cats.children].forEach(x => x.classList.toggle('on', x === b));
-        apply(b.dataset.tag);
-      });
-    }
-    apply('');
+
+  if (cats && CATS.length) {
+    cats.innerHTML = `<button class="on" data-tag="">全部${badge(allNotes.length)}</button>` +
+      CATS.map(t => `<button data-tag="${esc(t)}">${esc(t)}${badge(countOf(t))}</button>`).join('');
+    cats.addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      [...cats.children].forEach(x => x.classList.toggle('on', x === b));
+      apply(b.dataset.tag);
+    });
   }
+  apply('');
 }
 
 /* ── 文章页阅读进度条 ─────────────────────────────────────── */
