@@ -34,6 +34,13 @@ window.NOTES = [
     tag: '产品拆解'
   },
   {
+    date: '2026.07.23',
+    title: '真正的胜负手，是在混乱中摸索和开拓的能力',
+    slug: 'winning-in-chaos',
+    excerpt: '真正拉开差距的，往往不是沿着已知路径坚持，而是在没有答案、反馈迟缓的混乱里继续行动。能记录、试错、识别规律，并允许自己暂时没有结论，才是从 0 到 1 的稀缺能力。',
+    tag: '一些思考和碎碎念'
+  },
+  {
     date: '2026.06.19',
     title: '从敲命令到 AI 管家：一文读懂 CLI、API 与 MCP',
     slug: 'cli-api-mcp',
@@ -47,5 +54,5 @@ window.NOTES = [
 window.PICKS = {
   sharp: 'model-updates-pm-layer',// 最锋利的观点
   deep: 'workbuddy-teardown',     // 最硬的拆解
-  human: ''                       // 最有人味的
+  human: 'winning-in-chaos'       // 最有人味的
 };
