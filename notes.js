@@ -20,6 +20,13 @@
 window.CATEGORIES = ['行业观察', '产品拆解', 'AI 名词拆解', '工作方法', '一些思考和碎碎念'];
 window.NOTES = [
   {
+    date: '2026.08.06',
+    title: '模型每周都在更新，产品经理该站在哪一层',
+    slug: 'model-updates-pm-layer',
+    excerpt: '模型迭代正在从按年缩短到按季度，开源也在持续挤压模型层的价值。产品经理真正该积累的，是自建评测集、可替换的架构，以及对真实工作流的理解。',
+    tag: '行业观察'
+  },
+  {
     date: '2026.08.03',
     title: 'WorkBuddy 这波爆火到底改变了什么',
     slug: 'workbuddy-teardown',
@@ -38,7 +45,7 @@ window.NOTES = [
 /* 首页 START HERE 的三个槽位。填上面某篇文章的 slug 即可，
    留空就渲染成虚线「待填充」。 */
 window.PICKS = {
-  sharp: '',                      // 最锋利的观点
+  sharp: 'model-updates-pm-layer',// 最锋利的观点
   deep: 'workbuddy-teardown',     // 最硬的拆解
   human: ''                       // 最有人味的
 };
