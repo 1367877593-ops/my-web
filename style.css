@@ -214,6 +214,7 @@ a.pick:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 
 .post-body p{margin:0 0 26px}
 .post-body h2{margin:52px 0 18px;padding-left:16px;position:relative;font-size:24px;font-family:var(--font-cn);font-weight:700}
 .post-body h2::before{content:"";position:absolute;left:0;top:.28em;bottom:.28em;width:3px;background:var(--accent)}
+.post-body h3{margin:38px 0 14px;font-size:18px;font-family:var(--font-cn);font-weight:700;color:#25231f}
 .post-body blockquote{margin:34px 0;padding:4px 0 4px 22px;border-left:2px solid var(--accent);font-size:18px;line-height:1.85;color:#3a382f}
 .post-body ul,.post-body ol{margin:0 0 26px;padding-left:20px}
 .post-body li{margin:0 0 10px}

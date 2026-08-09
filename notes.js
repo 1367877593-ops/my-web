@@ -19,19 +19,19 @@
    起「这个站会写这四类」的说明作用。改这里就能加/改分类。 */
 window.CATEGORIES = ['行业观察', '产品拆解', '工作方法', '一些思考和碎碎念'];
 window.NOTES = [
-  // {
-  //   date: '2026.08.04',
-  //   title: '法学训练里，真正迁移到产品工作的那一部分',
-  //   slug: 'law-to-product',
-  //   excerpt: '一句话摘要，控制在两行以内。',
-  //   tag: '工作方法'
-  // },
+  {
+    date: '2026.08.03',
+    title: 'WorkBuddy 这波爆火到底改变了什么',
+    slug: 'workbuddy-teardown',
+    excerpt: 'AI 的门槛从“学会怎么问”降到了“说清楚要什么”——拆一遍这波爆火背后逻辑',
+    tag: '产品拆解'
+  },
 ];
 
 /* 首页 START HERE 的三个槽位。填上面某篇文章的 slug 即可，
    留空就渲染成虚线「待填充」。 */
 window.PICKS = {
-  sharp: '',  // 最锋利的观点
-  deep: '',   // 最硬的拆解
-  human: ''   // 最有人味的
+  sharp: '',                      // 最锋利的观点
+  deep: 'workbuddy-teardown',     // 最硬的拆解
+  human: ''                       // 最有人味的
 };
