@@ -20,6 +20,13 @@
 window.CATEGORIES = ['行业观察', '产品拆解', 'AI 名词拆解', '工作方法', '一些思考和碎碎念'];
 window.NOTES = [
   {
+    date: '2026.08.10',
+    title: '一文带你看懂LangGraph是什么',
+    slug: 'what-is-langgraph',
+    excerpt: 'LangGraph 不是新的 AI 模型，而是一套让智能体按流程执行任务、保存状态，并支持分支、重试、人工审批和断点恢复的编排框架。本文用三个生活类比把它讲明白。',
+    tag: 'AI 名词拆解'
+  },
+  {
     date: '2026.08.06',
     title: '模型每周都在更新，产品经理该站在哪一层',
     slug: 'model-updates-pm-layer',

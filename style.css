@@ -208,6 +208,7 @@ a.pick:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 
 .post-meta{display:flex;flex-wrap:wrap;gap:10px 18px;font:500 11px var(--font-mono);letter-spacing:.1em;color:var(--muted-ink)}
 .post-meta b{color:var(--accent);font-weight:600}
 .post h1{margin:22px 0 0;font-size:clamp(30px,4.4vw,54px);line-height:1.18;font-family:var(--font-cn);font-weight:700;letter-spacing:-.01em}
+.post h1 .nowrap{white-space:nowrap}
 .post-lead{margin:26px 0 0;font-family:var(--font-cn);font-size:clamp(16px,1.4vw,19px);line-height:1.85;color:#3a382f}
 .post-rule{margin:44px 0;height:1px;background:var(--line)}
 .post-body{font-family:var(--font-cn);font-size:17px;line-height:1.95;color:#25231f}

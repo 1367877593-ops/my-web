@@ -1,0 +1,105 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="description" content="LangGraph 不是新的 AI 模型，而是一套让智能体按流程执行任务、保存状态，并支持分支、重试、人工审批和断点恢复的编排框架。本文用三个生活类比把它讲明白。">
+<title>一文带你看懂LangGraph是什么 · 张昕煜</title>
+<link rel="canonical" href="https://zhangxinyuzxy.com/notes/what-is-langgraph.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一文带你看懂LangGraph是什么">
+<meta property="og:description" content="LangGraph 不是新的 AI 模型，而是一套让智能体按流程执行任务、保存状态，并支持分支、重试、人工审批和断点恢复的编排框架。本文用三个生活类比把它讲明白。">
+<meta property="og:url" content="https://zhangxinyuzxy.com/notes/what-is-langgraph.html">
+<meta property="og:image" content="https://zhangxinyuzxy.com/assets/hero.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"一文带你看懂LangGraph是什么","description":"LangGraph 不是新的 AI 模型，而是一套让智能体按流程执行任务、保存状态，并支持分支、重试、人工审批和断点恢复的编排框架。本文用三个生活类比把它讲明白。","datePublished":"2026-08-10","dateModified":"2026-08-10","mainEntityOfPage":"https://zhangxinyuzxy.com/notes/what-is-langgraph.html","image":"https://zhangxinyuzxy.com/assets/hero.png","author":{"@type":"Person","name":"张昕煜","url":"https://zhangxinyuzxy.com/"}}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../style.css?v=20260814-1"></head><body>
+
+<div class="dots" aria-hidden="true"></div>
+<div class="contours" aria-hidden="true"></div>
+<div class="artprog"></div>
+
+<div class="artbar">
+  <a href="../notes.html">← NOTES</a>
+  <a class="wordmark" href="../index.html">张昕煜</a>
+  <a href="../index.html#about">联系</a>
+</div>
+
+<article class="post">
+  <div class="post-meta"><b>2026.08.10</b><span>7 MIN READ</span><span>AI 名词拆解</span></div>
+  <h1>一文带你看懂<span class="nowrap">LangGraph是什么</span></h1>
+  <p class="post-lead">看懂 LangGraph，就看懂 AI 是怎么干活的。</p>
+  <div class="post-rule"></div>
+
+  <div class="post-body">
+    <p>最近，我总在各种 AI 讨论里看到 LangGraph。点开解释，迎面就是“编排框架”“有状态”“多智能体”等术语。每个词都认识，合在一起还是不知道它到底在干什么。</p>
+    <p>弄明白后我发现，它做的事其实很像给 AI 安排工作流程。理解这套方法，也就容易看清 AI 怎样从聊天工具变成能执行任务的系统。下面尽量不用术语。</p>
+
+    <h2>一、AI 已经不只是在聊天</h2>
+    <p>平时用 AI，我们多数是在聊天：你问一句，它答一句。</p>
+    <p>但如果任务是“查一下三家供应商的报价，做完对比，整理成表格发给老板”，情况就不同了。AI 得上网搜索、阅读网页、整理数据、生成文件，还要调用邮箱。中途出错，它还得知道退回哪一步重做。</p>
+    <p>这种能连续执行多个步骤、调用工具，并根据结果决定下一步做什么的 AI，通常叫 Agent，中文是智能体。以前的 AI 主要回答问题，现在的 AI 也开始接手一段完整的工作。LangGraph 管的就是后面这类任务。</p>
+
+    <h2>二、LangGraph 这个名字是什么意思</h2>
+    <p>Lang 是 Language 的缩写，指大语言模型，也就是 Claude、ChatGPT 这类 AI。Graph 是“图”，这里说的不是图片，而是流程图。</p>
+    <p>它的思路很直接：把 AI 干活的过程画成一张图。先做什么，下一步去哪，遇到岔路怎样选择，出错后退回哪里，都写进流程。</p>
+    <p>所以，LangGraph 不是 AI 模型。模型负责理解、判断和生成内容，LangGraph 负责把这些能力安排进一个能运行的流程。把它看成 AI 的调度员就够了。</p>
+
+    <h2>三、用一次看病理解它</h2>
+    <p>医院的流程很适合解释 LangGraph。一个人先挂号，再到分诊台，由分诊台判断去内科还是外科。之后可能要做检查、看结果、开药；如果指标异常，还要回去复查。</p>
+    <p>把这套流程换成 LangGraph 的说法：</p>
+    <ul>
+      <li>每个科室和窗口都是一个“节点”，也就是具体干活的环节。这个环节可能让 AI 思考，也可能让它上网搜索。</li>
+      <li>科室之间的指引箭头是“边”，它规定当前步骤做完后该去哪里。</li>
+      <li>分诊台的判断是“条件边”。肚子疼去内科，外伤去外科，这就是流程里的岔路口。</li>
+      <li>复查对应“循环”。结果不合格，任务就回到前面的步骤重做。</li>
+      <li>需要主任签字的环节对应“人工审批”。AI 会停下来，等人确认后再继续。</li>
+    </ul>
+    <p>这套类比里，还有一样东西不能漏掉：病历本。</p>
+    <p>从挂号到取药，你拿的是同一本病历。每个科室都会在上面补充信息，后面的医生也能看到前面写了什么。LangGraph 把这份贯穿全程的数据叫“状态”。每个节点读取它、修改它，再交给下一个节点。</p>
+    <p>没有状态，AI 每走一步都像重新开始。上一步查到的报价，下一步就忘了，整个任务自然接不起来。LangGraph 介绍里常见的 stateful，也就是“有状态”，说的正是这件事。</p>
+
+    <h2>四、为什么不能直接让 AI“看着办”</h2>
+    <p>AI 已经很聪明了，为什么还要专门画流程图？把整件事交给它自己处理，不行吗？</p>
+    <p>可以把它想成请临时工。</p>
+    <p><strong>方式 A：</strong>你请来一个很聪明、但从没在你公司工作过的人，只告诉他“你看着办”。他可能做得不错，也可能搜到一半跑偏，忘记老板要的是表格，抄错一个数字，或者卡在某一步反复打转。你看不到中间过程，出错后也很难定位。</p>
+    <p><strong>方式 B：</strong>你给他一张流程单。先查 A、B、C 三家供应商，这三项可以同时做；接着汇总。如果有一家缺数据，就退回去重查；然后生成表格；最后先交给你确认，得到同意后才能发邮件。</p>
+    <p>方式 B 就是 LangGraph 在做的事。它把必须固定的步骤和可以由 AI 自己判断的步骤放进同一张图。写内容时可以让模型灵活处理，发邮件这种无法轻易撤回的动作，则可以强制加入人工确认。</p>
+    <p>模型聪明，不代表整套任务一定可靠。LangGraph 解决的是后一个问题。</p>
+
+    <h2>五、像游戏存档一样保存进度</h2>
+    <p>LangGraph 还有一个重要能力，叫检查点（Checkpointer）。它很像游戏存档。</p>
+    <p>假设一个 AI 任务要运行 40 分钟，例如整理一个季度的数据。跑到第 35 分钟时服务器崩了。如果没有存档，前面的工作得全部重来，已经产生的 AI 调用费用也浪费了。</p>
+    <p>LangGraph 可以在每一步之后保存进度。系统重启后，任务从最近的检查点继续，不必回到开头。</p>
+    <p>检查点也让多轮对话更自然。你今天和客服机器人聊到一半关掉页面，明天回来时，它还能从存档里找到之前的订单号。</p>
+    <p>开发者调试时也能“回到过去”。比如回到第 12 步，改完后继续往下跑，不用每次都从第 1 步重新测试。</p>
+
+    <h2>六、实际案例没有想象中整齐</h2>
+    <p>这套方法听起来合理，实际效果怎样？公开案例里，Klarna 经常被提到。</p>
+    <p>Klarna 是欧洲最大的先买后付支付公司。它用 LangGraph 驱动 AI 客服助手，为 8500 万活跃用户提供服务，客户问题的解决时间据称缩短了约 80%。按照该公司 CEO 的说法，这个机器人处理了大约三分之二的客户咨询，工作量相当于 853 名全职客服，节省约 6000 万美元。</p>
+    <p>不过，这个案例还有后续。2025 年，Klarna 又部分撤回了此前的裁员，因为不断有投诉认为机器人处理不好复杂、细微的问题。后来，人们常把这件事当作 AI 客服扩张过快的警示。</p>
+    <p>我觉得后半段比前面的效率数字更值得留意。流程可以约束 AI 怎样执行任务，却不能自动补上它对复杂问题的理解。工具很强，也不等于它能完全替代人。</p>
+    <p>Replit 是一个在浏览器里写代码的平台。它的 AI Agent 底层使用 LangGraph 搭建多智能体系统，用户能看到 Agent 的每个动作，从安装依赖到创建文件，过程都能被查看。</p>
+    <p>Uber 用它搭建了一个智能体网络来自动生成单元测试，据称节省约 21000 个开发工时。</p>
+    <p>LinkedIn 内部的 SQL Bot 可以把日常语言转成数据库查询语句；它还有一个 AI 招聘官，用于搜寻和匹配候选人。</p>
+    <p>物业管理软件 AppFolio 改用 LangGraph 后，回答准确率提升了 2 倍，每周为物业经理节省 10 小时以上。</p>
+    <p>摩根大通和 GitLab 也在使用 LangGraph。它目前是最流行的底层智能体编排框架，每月下载量大约 1200 万次。</p>
+
+    <h2>七、普通用户为什么要知道这些</h2>
+    <p>普通用户不会直接“打开 LangGraph”。它藏在产品后端，像一栋楼的地基。在 Klarna，你看到的是客服聊天框；在 Replit，你看到的是代码编辑器。LangGraph 在服务器里安排每一步由谁处理、下一步去哪，以及出错后怎么办。</p>
+    <p>先说记忆。有的 AI 产品聊几句就断片，有的却记得你上周提过的内容。差别未必来自模型本身，也可能来自后端有没有“病历本”和“存档”这套机制。</p>
+    <p>再说管理。未来的“AI 同事”不会只靠自觉完成工作。系统需要明确哪些步骤可以由 AI 决定，哪些动作必须让人确认。这和管理人的思路确实很像。</p>
+
+    <h2>八、什么时候值得用 LangGraph</h2>
+    <p>如果只是向 AI 问一个问题，直接用 Claude 或 ChatGPT 就够了。要搭一个简单的问答机器人，调用 API 通常也能解决。只有当流程里真的有分支、重试、人工审批和断点恢复，LangGraph 才值得考虑。官方给出的建议也是如此。</p>
+    <p>它的成本同样明确。简单场景使用 LangGraph，很容易把小问题做复杂。为了定义状态、条件边和检查点，开发者要写不少代码；托管平台还会按月收费，高吞吐场景的费用也可能失控。</p>
+    <p>我弄懂 LangGraph 后，一个感受比“AI 又进化了”更具体：模型再聪明，也需要一套能检查、能回退，并在必要时让人接手的流程。LangGraph 受到关注，至少说明人们正在把过去管理复杂工作的经验搬进 AI 系统。</p>
+    <p>至于 AI 最后能被“管”到什么程度，我也没有答案。先弄清这些系统怎样运转，再看它会走到哪里。</p>
+  </div>
+
+  <div class="post-tags"><span>AI 名词拆解</span><span>LangGraph</span><span>Agent</span><span>工作流</span></div>
+</article>
+
+<nav class="post-nav">
+  <a href="./model-updates-pm-layer.html"><small>← 上一篇</small><strong>模型每周都在更新，产品经理该站在哪一层</strong></a>
+</nav>
+
+<footer><span>© 2026 ZHANG XINYU</span><span>THANK YOU FOR VISITING</span></footer>
+<script src="../notes.js?v=20260810-3"></script><script src="../script.js?v=20260810-2"></script></body></html>
