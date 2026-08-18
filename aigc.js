@@ -42,29 +42,62 @@ window.AIGC_FORMATS = [
 window.AIGC_SERIES = ['敦煌风格', '枫桥夜泊'];
 
 window.AIGC_WORKS = [
-  /* 照着这两条填，把注释拆掉就是真数据 —————————————
-
+  /* 枫桥夜泊 —— 同一条船的四个机位，青灰单色，竖幅 */
   {
-    date: '2026.08.16',
-    title: '崖壁悬空楼阁',
-    series: '敦煌风格',
-    type: 'image',
-    src: 'assets/aigc/dunhuang/cliff-pavilion.jpg',
-    prompt: '右侧巨型沙岩崖体上密密嵌满青绿琉璃顶的悬空楼阁，层层出檐，白鹤群飞穿行其间……',
-    note: '试了六版都卡在楼阁层数上，最后靠「层层出檐」把结构稳住。'
+    date: '2026.08.16', title: '船头正面', series: '枫桥夜泊', type: 'image',
+    src: 'assets/aigc/fengqiao/bow-front.jpg', thumb: 'assets/aigc/fengqiao/bow-front-t.jpg',
+    prompt: '新中式厚涂概念插画，青灰单色基调，竖幅构图。正景近景，镜头位于船头正前方，与舱门……',
   },
   {
-    date: '2026.08.16',
-    title: '枫桥夜泊 · 船身浮动',
-    series: '枫桥夜泊',
-    type: 'video',
-    src: 'assets/aigc/fengqiao/boat-drift.mp4',
-    thumb: 'assets/aigc/fengqiao/boat-drift.jpg',
-    poster: 'assets/aigc/fengqiao/boat-drift.jpg',
-    wide: true,
-    prompt: '全程 8 秒。船体做缓慢的整体上下浮动，8 秒内完成约三次完整的起伏，幅度轻微……',
-    note: '图生视频，难点是让船动、水面别糊。'
+    date: '2026.08.16', title: '侧景平视', series: '枫桥夜泊', type: 'image',
+    src: 'assets/aigc/fengqiao/side-level.jpg', thumb: 'assets/aigc/fengqiao/side-level-t.jpg',
+    prompt: '新中式厚涂概念插画，青灰单色基调，竖幅构图。侧景，镜头与船身完全平行，高度与坐着……',
+  },
+  {
+    date: '2026.08.16', title: '高位远景', series: '枫桥夜泊', type: 'image',
+    src: 'assets/aigc/fengqiao/high-wide.jpg', thumb: 'assets/aigc/fengqiao/high-wide-t.jpg',
+    prompt: '新中式厚涂概念插画，青灰单色基调，竖幅构图。高位远景，镜头从斜后上方俯看一叶客船……',
+  },
+  {
+    date: '2026.08.16', title: '江上望城', series: '枫桥夜泊', type: 'image',
+    src: 'assets/aigc/fengqiao/river-to-wall.jpg', thumb: 'assets/aigc/fengqiao/river-to-wall-t.jpg',
+    prompt: '新中式厚涂概念插画，青灰单色基调，竖幅构图。极远景，镜头从江上望向岸上旷野。城墙……',
   },
 
-  ————————————————————————————————————————— */
+  /* 敦煌 —— 都是横构图，wide 让它们在网格里占两格 */
+  {
+    date: '2026.08.16', title: '金幕垂落', series: '敦煌风格', type: 'image', wide: true,
+    src: 'assets/aigc/dunhuang/gold-drape.jpg', thumb: 'assets/aigc/dunhuang/gold-drape-t.jpg',
+    prompt: '夜空深蓝近黑，数条巨型金色壁画岩幕如帷幔般向下垂落并卷曲铺地，幕面绘满飞天与观音……',
+  },
+  {
+    date: '2026.08.16', title: '朱红佛龛壁', series: '敦煌风格', type: 'image', wide: true,
+    src: 'assets/aigc/dunhuang/vermilion-niches.jpg', thumb: 'assets/aigc/dunhuang/vermilion-niches-t.jpg',
+    prompt: '巨大朱红色岩壁自画面顶端垂落，壁面布满层层叠叠的唐代佛龛与供养人壁画，岩体不规则……',
+  },
+  {
+    date: '2026.08.16', title: '岩壁裂隙', series: '敦煌风格', type: 'image', wide: true,
+    src: 'assets/aigc/dunhuang/rock-fissure.jpg', thumb: 'assets/aigc/dunhuang/rock-fissure-t.jpg',
+    prompt: '特写视角：粗粝的米黄色岩壁被撕开数道纵向裂口，裂口深处露出完整的青金石蓝与朱红壁……',
+  },
+  {
+    date: '2026.08.16', title: '经变画长廊', series: '敦煌风格', type: 'image', wide: true,
+    src: 'assets/aigc/dunhuang/sutra-corridor.jpg', thumb: 'assets/aigc/dunhuang/sutra-corridor-t.jpg',
+    prompt: '连续多面巨型崖壁沿透视线向远方延伸，每一面都绘满立佛与经变画，朱红与群青交替；一……',
+  },
+  {
+    date: '2026.08.16', title: '经变画长廊 II', series: '敦煌风格', type: 'image', wide: true,
+    src: 'assets/aigc/dunhuang/sutra-corridor-2.jpg', thumb: 'assets/aigc/dunhuang/sutra-corridor-2-t.jpg',
+    prompt: '连续多面巨型崖壁沿透视线向远方延伸，每一面都绘满立佛与经变画，朱红与群青交替；一……',
+  },
+  {
+    date: '2026.08.16', title: '崖壁悬空楼阁 II', series: '敦煌风格', type: 'image', wide: true,
+    src: 'assets/aigc/dunhuang/cliff-pavilion-2.jpg', thumb: 'assets/aigc/dunhuang/cliff-pavilion-2-t.jpg',
+    prompt: '右侧巨型沙岩崖体上密密嵌满青绿琉璃顶的悬空楼阁，层层出檐，白鹤群飞穿行其间；崖下……',
+  },
+  {
+    date: '2026.08.15', title: '崖壁悬空楼阁', series: '敦煌风格', type: 'image', wide: true,
+    src: 'assets/aigc/dunhuang/cliff-pavilion.jpg', thumb: 'assets/aigc/dunhuang/cliff-pavilion-t.jpg',
+    prompt: '右侧巨型沙岩崖体上密密嵌满青绿琉璃顶的悬空楼阁，层层出檐，白鹤群飞穿行其间；崖下……',
+  },
 ];
