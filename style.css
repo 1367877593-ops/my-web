@@ -314,6 +314,138 @@ body.lb-open{overflow:hidden}
 .lb-prev{justify-self:start}
 .lb-next{justify-self:end}
 
+/* ============ 项目 Demo 页（简历筛选 Agent）============
+   数据是真跑出来的，界面刻意做得像「一次运行」而不是一张成品图 ——
+   这套东西的价值在过程：哪一步检出问题、修了几轮、还剩什么。 */
+.demo-page{max-width:1120px}
+.demo-page .head{text-align:left;margin-bottom:clamp(40px,6vh,72px)}
+.demo-page .head p{margin-left:0;max-width:62ch;font-size:15px;line-height:1.85}
+.dsec{margin:0 0 clamp(48px,7vh,86px)}
+.dlabel{display:flex;align-items:center;gap:16px;margin:0 0 24px}
+.dlabel::after{content:"";flex:1;height:1px;background:var(--line)}
+.dlabel span{font:600 11px var(--font-mono);letter-spacing:.18em;color:var(--accent)}
+.dgrid2{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(28px,4vw,56px)}
+.dgrid2 h3{margin:0 0 14px;font-family:var(--font-cn);font-size:18px;font-weight:600;letter-spacing:0}
+.dgrid2 p{margin:0 0 14px;font-family:var(--font-cn);font-size:14px;line-height:1.85;color:var(--muted-ink)}
+.dlist{margin:0;padding:0;list-style:none}
+.dlist li{padding:13px 0;border-bottom:1px solid var(--line);font-family:var(--font-cn);font-size:13.5px;line-height:1.7;color:var(--muted-ink)}
+.dlist li b{display:block;margin-bottom:3px;color:var(--ink);font-weight:600}
+
+/* 内置功能 */
+.dcaps{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.dcap{padding:20px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+.dcap b{display:block;margin-bottom:8px;font-family:var(--font-cn);font-size:14.5px;font-weight:600}
+.dcap span{font-family:var(--font-cn);font-size:12.5px;line-height:1.75;color:var(--muted-ink)}
+
+/* 运行区 */
+.dnote{padding:20px 22px;background:var(--surface);border-radius:14px;margin-bottom:20px}
+.dnote p{margin:0 0 10px;font-family:var(--font-cn);font-size:13.5px;line-height:1.8;color:var(--muted-ink)}
+.dnote p:last-child{margin:0}
+.dnote code,.dsrc code{padding:2px 6px;background:rgba(10,10,10,.07);border-radius:4px;font:500 12px var(--font-mono)}
+.drun{padding:15px 26px;border:1px solid var(--accent);border-radius:99px;background:transparent;font:600 12px var(--font-mono);letter-spacing:.08em;color:var(--accent);cursor:pointer;transition:.25s}
+.drun:hover{background:var(--accent);color:#fff}
+
+/* 终端式日志 */
+.dterm{margin-top:22px;padding:20px 22px;background:#0e0e0d;border-radius:14px;overflow-x:auto}
+.dline{display:flex;gap:12px;align-items:baseline;padding:5px 0;white-space:nowrap;animation:dfade .3s both}
+.dline i{font-style:normal;color:var(--accent)}
+.dline b{font:600 12px var(--font-mono);color:#f5f4f0;min-width:96px}
+.dline span{font:400 12px var(--font-mono);color:rgba(245,244,240,.55)}
+.dline.done i,.dline.done b{color:#7bd88f}
+@keyframes dfade{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+
+/* 结果 */
+.dout{margin-top:30px}
+.dsub{display:flex;align-items:baseline;gap:14px;margin:38px 0 16px;font-family:var(--font-cn);font-size:16px;font-weight:600}
+.dsub span{font:500 11px var(--font-mono);letter-spacing:.06em;color:var(--muted-ink)}
+.dtitle{margin-bottom:14px;font-family:var(--font-cn);font-size:15px;font-weight:600;color:var(--accent)}
+.dreqs{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.dreq{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;padding:12px 16px;background:var(--card)}
+.dreq i{font:600 11px var(--font-mono);font-style:normal;color:var(--muted-ink)}
+.dreq span{font-family:var(--font-cn);font-size:13.5px}
+.dreq em{font:500 10px var(--font-mono);font-style:normal;letter-spacing:.06em;color:var(--muted-ink)}
+.dreq.hard i,.dreq.hard em{color:var(--accent)}
+
+/* 排名 */
+.dranks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.drank{display:grid;grid-template-columns:auto 1fr;grid-auto-rows:min-content;gap:4px 12px;padding:18px 20px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;cursor:pointer;transition:.25s}
+.drank:hover{border-color:var(--accent)}
+.drank.on{border-color:var(--ink);box-shadow:0 10px 30px rgba(10,10,10,.08)}
+.drank i{grid-row:1/3;align-self:center;font:600 22px var(--font-mono);font-style:normal;color:var(--muted-ink)}
+.drank b{font-family:var(--font-cn);font-size:17px;font-weight:600}
+.drank u{text-decoration:none;font:600 12px var(--font-mono);color:var(--muted-ink)}
+.drank em{grid-column:2;justify-self:start;margin-top:6px;padding:3px 10px;border-radius:99px;font:600 10px var(--font-mono);font-style:normal;letter-spacing:.08em}
+.drank s{grid-column:2;text-decoration:none;font:500 10px var(--font-mono);color:#c0392b}
+.drank.ok em{background:rgba(46,160,67,.14);color:#2b7a3d}
+.drank.warn em{background:rgba(255,90,31,.14);color:var(--accent)}
+.drank.bad em{background:rgba(192,57,43,.13);color:#c0392b}
+
+/* Checker */
+.dchk{display:grid;gap:10px}
+.dchk>div{display:grid;grid-template-columns:auto auto 1fr;gap:12px;align-items:baseline;padding:14px 18px;border:1px solid var(--line);border-left-width:3px;border-radius:12px;background:var(--card)}
+.dchk .ok{border-left-color:#2b7a3d}
+.dchk .warn{border-left-color:var(--accent)}
+.dchk i{font:600 10px var(--font-mono);font-style:normal;letter-spacing:.08em;color:var(--muted-ink)}
+.dchk b{font:600 11px var(--font-mono)}
+.dchk span{font-family:var(--font-cn);font-size:13px;line-height:1.7;color:var(--muted-ink)}
+
+/* 候选人详情 */
+.dcand{margin-top:36px;padding:clamp(22px,3vw,34px);background:var(--card);border:1px solid var(--line);border-radius:18px}
+.dcand-h h4{margin:0 0 8px;font-family:var(--font-cn);font-size:22px;font-weight:600}
+.dcand-h p{margin:0;font-family:var(--font-cn);font-size:13.5px;line-height:1.75;color:var(--muted-ink)}
+.dcand .dsub:first-of-type{margin-top:30px}
+.dstages{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:22px}
+.dstage{padding:13px 15px;border:1px solid var(--line);border-left-width:3px;border-radius:11px}
+.dstage.ok{border-left-color:#2b7a3d}
+.dstage.warn{border-left-color:var(--accent)}
+.dstage i{display:block;margin-bottom:5px;font-family:var(--font-cn);font-size:13.5px;font-style:normal;font-weight:600}
+.dstage em{font:600 10px var(--font-mono);font-style:normal;letter-spacing:.06em;color:var(--muted-ink)}
+.dstage span{margin-left:8px;font:500 10px var(--font-mono);color:var(--muted-ink)}
+.dstage u{display:block;margin-top:6px;text-decoration:none;font:500 10px var(--font-mono)}
+.dstage u.fix{color:#2b7a3d}
+.dstage u.leftover{color:var(--accent)}
+.dfind{margin-top:20px;padding:16px 18px;background:rgba(255,90,31,.06);border:1px solid rgba(255,90,31,.28);border-radius:12px}
+.dfind.ok{background:rgba(46,160,67,.06);border-color:rgba(46,160,67,.24)}
+.dfind b{display:block;margin-bottom:10px;font-family:var(--font-cn);font-size:13.5px;font-weight:600}
+.dfind.ok b{margin:0}
+.dfind i{font:600 11px var(--font-mono);font-style:normal;color:var(--accent)}
+.dfind p{margin:4px 0 8px;font-family:var(--font-cn);font-size:13px;line-height:1.75}
+.dfind blockquote{margin:0;padding:10px 14px;background:var(--card);border-left:2px solid var(--accent);border-radius:0 8px 8px 0;font-family:var(--font-cn);font-size:12.5px;line-height:1.7;color:var(--muted-ink)}
+
+/* 逐条判定 */
+.dvs{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.dv{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.dv-h{display:flex;align-items:baseline;gap:10px;margin-bottom:7px}
+.dv-h i{font:600 11px var(--font-mono);font-style:normal;color:var(--muted-ink)}
+.dv-h em{padding:2px 8px;border-radius:99px;font:600 10px var(--font-mono);font-style:normal;background:var(--surface);color:var(--muted-ink)}
+.dv-h u{margin-left:auto;text-decoration:none;font:600 11px var(--font-mono);color:var(--muted-ink)}
+.dv.ok .dv-h em{background:rgba(46,160,67,.14);color:#2b7a3d}
+.dv.warn .dv-h em{background:rgba(255,90,31,.14);color:var(--accent)}
+.dv.bad .dv-h em{background:rgba(192,57,43,.13);color:#c0392b}
+.dv p{margin:0;font-family:var(--font-cn);font-size:13px;line-height:1.7}
+.dv blockquote{margin:9px 0 0;padding:8px 12px;background:var(--surface);border-radius:8px;font-family:var(--font-cn);font-size:12px;line-height:1.65;color:var(--muted-ink)}
+
+/* 面试题 */
+.dqs{display:grid;gap:8px}
+.dq{border:1px solid var(--line);border-radius:12px;background:var(--bg);overflow:hidden}
+.dq summary{display:flex;gap:12px;align-items:baseline;padding:14px 16px;cursor:pointer;list-style:none}
+.dq summary::-webkit-details-marker{display:none}
+.dq summary i{font:600 11px var(--font-mono);font-style:normal;color:var(--accent);flex:none}
+.dq summary span{font-family:var(--font-cn);font-size:13.5px;line-height:1.65}
+.dq[open] summary{border-bottom:1px solid var(--line)}
+.dq-b{padding:14px 16px 16px}
+.dq-b p{margin:0 0 8px;font-family:var(--font-cn);font-size:12.5px;line-height:1.75;color:var(--muted-ink)}
+.dq-b b{margin-right:8px;color:var(--ink);font-weight:600}
+.drub{display:grid;gap:6px;margin-top:12px}
+.drub div{display:grid;grid-template-columns:auto auto 1fr;gap:10px;align-items:baseline;padding:9px 12px;background:var(--surface);border-radius:9px}
+.drub i{font:600 11px var(--font-cn);font-style:normal}
+.drub em{font:600 10px var(--font-mono);font-style:normal;color:var(--accent)}
+.drub span{font-family:var(--font-cn);font-size:12px;line-height:1.6;color:var(--muted-ink)}
+
+.dsrc{margin:0 0 20px;font-family:var(--font-cn);font-size:14px;line-height:1.8;color:var(--muted-ink)}
+.dbtn{display:inline-flex;align-items:center;padding:14px 24px;border:1px solid var(--accent);border-radius:99px;font:600 11px var(--font-mono);letter-spacing:.08em;color:var(--accent);transition:.25s}
+.dbtn:hover{background:var(--accent);color:#fff}
+
 /* ============ 响应式 ============ */
 @media(max-width:900px){
   .about-split{grid-template-columns:1fr;gap:34px}
@@ -350,6 +482,12 @@ body.lb-open{overflow:hidden}
   .deck p{font-size:13.5px}
   .deck-tag,.deck-link{position:static;align-self:flex-start;margin-top:16px}
   .contact-list dd{font-size:12.5px}
+  .dgrid2{grid-template-columns:1fr;gap:30px}
+  .dranks{grid-template-columns:1fr}
+  .dvs,.dstages,.dcaps{grid-template-columns:1fr}
+  .dchk>div{grid-template-columns:1fr;gap:5px}
+  .drub div{grid-template-columns:auto auto;gap:6px 10px}
+  .drub span{grid-column:1/3}
   .gallery{grid-template-columns:repeat(2,1fr);gap:10px}
   .shot.wide{grid-column:span 2;aspect-ratio:16/10}
   .note{grid-template-columns:1fr;gap:8px;padding:24px 0}

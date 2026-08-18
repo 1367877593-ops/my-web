@@ -1,0 +1,65 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="智能简历解析与试题生成引擎：输入 JD 与简历，输出可审计的匹配评分、决策建议与面试题，并由独立 Checker 校验后闭环修订。内置样例可在线运行。"><title>简历筛选 Agent · 张昕煜</title><link rel="canonical" href="https://zhangxinyuzxy.com/resume-agent.html"><meta property="og:type" content="website"><meta property="og:title" content="简历筛选 Agent · 张昕煜"><meta property="og:description" content="可审计的简历筛选与出题引擎，内置样例可在线跑一遍。"><meta property="og:url" content="https://zhangxinyuzxy.com/resume-agent.html"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body>
+
+<div class="dots" aria-hidden="true"></div>
+<div class="contours" aria-hidden="true"></div>
+
+<div class="artbar">
+  <a href="index.html">← 首页</a>
+  <a class="wordmark" href="index.html">张昕煜</a>
+  <a href="index.html#about">联系</a>
+</div>
+
+<main class="notes-page demo-page">
+  <header class="head">
+    <h2>简历筛选 Agent</h2>
+    <p>输入一份 JD 和若干份简历，输出可审计的匹配评分、是否推进面试的决策，以及针对性的面试题与追问 —— 每一条判断都要能指回简历原文。</p>
+  </header>
+
+  <!-- 这个项目在解决什么 -->
+  <section class="dsec">
+    <div class="dlabel"><span>问题</span></div>
+    <div class="dgrid2">
+      <div>
+        <h3>为什么不是「让大模型读一遍简历打个分」</h3>
+        <p>直接问模型「这个人合不合适」，它会给你一个数字和一段听着有道理的话。问题是这段话你没法核对 —— 它可能在复述简历里根本没写的东西，也可能引了原文却得出相反的结论。招聘是要对人负责的决策，理由不可核对就等于没有理由。</p>
+        <p>所以这套流程把「打分」拆成了可追溯的步骤：JD 先拆成一条条带权重的要求，每条要求单独判定，每个判定必须附上简历里的原句作为证据，最后再由一个独立的 Checker 回头查这些判定站不站得住。</p>
+      </div>
+      <div>
+        <h3>输出长什么样</h3>
+        <ul class="dlist">
+          <li><b>逐条判定</b> —— 每条 JD 要求给出满足 / 部分满足 / 不满足，附简历原句</li>
+          <li><b>三档决策</b> —— 推进、待定、淘汰，硬性项不满足直接一票否决</li>
+          <li><b>面试题与追问</b> —— 每道题写明考察哪个点、为什么问，附评分标准</li>
+          <li><b>校验记录</b> —— Checker 发现了什么、修订了几轮、还剩什么问题</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 内置功能 -->
+  <section class="dsec">
+    <div class="dlabel"><span>内置功能</span></div>
+    <div class="dcaps" id="dCaps"></div>
+  </section>
+
+  <!-- 可运行的 Demo -->
+  <section class="dsec" id="demo">
+    <div class="dlabel"><span>跑一遍</span></div>
+    <div class="dnote">
+      <p>下面这份是<b>真实运行结果</b>，不是写死的界面稿 —— 数据由仓库里的内置样例以 <code>DEMO_MODE=1</code> 跑出后导出。该模式回放固定缓存，不调用任何模型、不发网络请求，所以结果每次都一样。</p>
+      <p>样例是一份 JD 加三份对比鲜明的简历，<b>三档决策各占一位</b>，并且刻意保留了两处不完美，用来展示 Checker 真的在干活。</p>
+    </div>
+    <button class="drun" id="dRun" type="button">▶ 运行内置样例</button>
+    <div class="dterm" id="dTerm" hidden></div>
+    <div class="dout" id="dOut" hidden></div>
+  </section>
+
+  <section class="dsec">
+    <div class="dlabel"><span>源码</span></div>
+    <p class="dsrc">完整实现、架构文档与部署说明在 GitHub。本地 <code>make demo</code> 可以无 Key 跑起完整界面。</p>
+    <a class="dbtn" href="https://github.com/1367877593-ops/resume-screening-agent" target="_blank" rel="noopener">看 GitHub 仓库 ↗</a>
+  </section>
+</main>
+
+<footer><span>© 2026 ZHANG XINYU</span><span>THANK YOU FOR VISITING</span></footer>
+<script src="resume-agent-data.js?v=20260818-1"></script><script src="resume-agent.js?v=20260818-1"></script></body></html>
