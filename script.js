@@ -298,8 +298,9 @@ ${w.type === 'video' ? '<i class="shot-play" aria-hidden="true">▶</i>' : ''}
       at = (i + view.length) % view.length;
       const w = view[at];
       lbMedia.innerHTML = w.type === 'video'
-        /* 静音自动播放才不会被浏览器拦，想听声音自己点开控件 */
-        ? `<video src="${esc(w.src)}"${w.poster ? ` poster="${esc(w.poster)}"` : ''} controls autoplay muted loop playsinline></video>`
+        /* 静音自动播放才不会被浏览器拦，想听声音自己点开控件。
+           几秒的循环小片默认 loop，成片在数据里写 loop:false 关掉 */
+        ? `<video src="${esc(w.src)}"${w.poster ? ` poster="${esc(w.poster)}"` : ''} controls autoplay muted${w.loop === false ? '' : ' loop'} playsinline></video>`
         : `<img src="${esc(w.src)}" alt="${esc(w.title)}">`;
       lbCap.innerHTML = `<span class="lb-idx">${String(at + 1).padStart(2, '0')} / ${String(view.length).padStart(2, '0')}</span>
 <h3>${esc(w.title)}</h3>

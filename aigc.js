@@ -19,6 +19,8 @@
              视频必须填，否则一进页面十几条 mp4 一起加载
      poster  可选，仅视频用，播放前那一帧
      wide    可选，true = 横构图，在网格里占两格
+     loop    可选，仅视频用。默认循环播放（几秒的小片合适）；
+             成片写 loop: false，放完就停
      prompt  可选，出图/出片用的提示词，点开后折叠显示
      note    可选，一句话：想做什么、卡在哪、怎么解决的
 
@@ -42,6 +44,16 @@ window.AIGC_FORMATS = [
 window.AIGC_SERIES = ['敦煌风格', '枫桥夜泊'];
 
 window.AIGC_WORKS = [
+  /* 敦煌成片 —— 41 秒，1080p / 4000kbps。长片不循环，放完就停 */
+  {
+    date: '2026.08.16', title: '驼队过壁画峡谷', series: '敦煌风格', type: 'video',
+    wide: true, loop: false,
+    src: 'assets/aigc/dunhuang/canyon-caravan.mp4',
+    thumb: 'assets/aigc/dunhuang/canyon-caravan-t.jpg',
+    poster: 'assets/aigc/dunhuang/canyon-caravan-p.jpg',
+    note: '41 秒成片。驼队穿行在绘满经变画的崖壁峡谷之间。',
+  },
+
   /* 枫桥夜泊 —— 同一条船的四个机位，青灰单色，竖幅 */
   {
     date: '2026.08.16', title: '船头正面', series: '枫桥夜泊', type: 'image',
