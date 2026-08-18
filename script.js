@@ -215,6 +215,97 @@ if (artProg) {
   paintProg();
 }
 
+/* ── AIGC 作品集：系列筛选 + 网格 + 灯箱 ──────────────────────
+   数据来自 aigc.js。网格里只挂缩略图，原件（尤其视频）等点开才建标签，
+   否则一屏十几条 mp4 会同时开始缓冲。 */
+const aigcGrid = document.getElementById('aigcGrid');
+if (aigcGrid) {
+  const works = Array.isArray(window.AIGC_WORKS) ? window.AIGC_WORKS : [];
+  const SERIES = Array.isArray(window.AIGC_SERIES) ? window.AIGC_SERIES : [];
+  const cats = document.getElementById('aigcCats');
+  const emptyBox = document.getElementById('aigcEmpty');
+  const lb = document.getElementById('lightbox');
+  const lbMedia = document.getElementById('lbMedia');
+  const lbCap = document.getElementById('lbCap');
+  const countOf = s => works.filter(w => w.series === s).length;
+  const badge = n => n ? ` <i>${n}</i>` : '';
+  const thumbOf = w => w.thumb || w.poster || w.src;
+
+  let view = works;  /* 当前筛选结果，灯箱只在这一份里前后翻 */
+  let at = 0;
+
+  const paint = series => {
+    view = series ? works.filter(w => w.series === series) : works;
+    aigcGrid.hidden = !view.length;
+    if (emptyBox) {
+      emptyBox.hidden = !!view.length;
+      if (!view.length) emptyBox.querySelector('p').textContent = series ? '这个系列还在整理。' : '作品正在整理，很快放上来。';
+    }
+    if (!view.length) { aigcGrid.innerHTML = ''; return; }
+    aigcGrid.innerHTML = view.map((w, i) => `<button class="shot${w.wide ? ' wide' : ''}" type="button" data-i="${i}">
+<img src="${esc(thumbOf(w))}" alt="${esc(w.title)}" loading="lazy" decoding="async">
+${w.type === 'video' ? '<i class="shot-play" aria-hidden="true">▶</i>' : ''}
+<span class="shot-meta"><b>${esc(w.title)}</b><em>${esc(w.series || '')}</em></span></button>`).join('');
+  };
+
+  if (cats && SERIES.length) {
+    cats.innerHTML = `<button class="on" data-series="">全部${badge(works.length)}</button>` +
+      SERIES.map(s => `<button data-series="${esc(s)}">${esc(s)}${badge(countOf(s))}</button>`).join('');
+    cats.addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      [...cats.children].forEach(x => x.classList.toggle('on', x === b));
+      paint(b.dataset.series);
+    });
+  }
+  paint('');
+
+  /* ── 灯箱 ── */
+  if (lb && lbMedia && lbCap) {
+    let opener = null;  /* 关掉之后焦点还回原来那张卡片 */
+    const openAt = i => {
+      if (!view.length) return;
+      at = (i + view.length) % view.length;
+      const w = view[at];
+      lbMedia.innerHTML = w.type === 'video'
+        /* 静音自动播放才不会被浏览器拦，想听声音自己点开控件 */
+        ? `<video src="${esc(w.src)}"${w.poster ? ` poster="${esc(w.poster)}"` : ''} controls autoplay muted loop playsinline></video>`
+        : `<img src="${esc(w.src)}" alt="${esc(w.title)}">`;
+      lbCap.innerHTML = `<span class="lb-idx">${String(at + 1).padStart(2, '0')} / ${String(view.length).padStart(2, '0')}</span>
+<h3>${esc(w.title)}</h3>
+<em>${[w.series, w.date].filter(Boolean).map(esc).join(' · ')}</em>
+${w.note ? `<p>${esc(w.note)}</p>` : ''}
+${w.prompt ? `<details><summary>PROMPT</summary><p>${esc(w.prompt)}</p></details>` : ''}`;
+      lb.hidden = false;
+      document.body.classList.add('lb-open');
+    };
+    const closeLb = () => {
+      lb.hidden = true;
+      lbMedia.innerHTML = '';  /* 清空才会真的停下正在播的视频 */
+      document.body.classList.remove('lb-open');
+      opener?.focus();
+    };
+
+    aigcGrid.addEventListener('click', e => {
+      const card = e.target.closest('.shot');
+      if (!card) return;
+      opener = card;
+      openAt(Number(card.dataset.i));
+    });
+    lb.querySelector('.lb-close').addEventListener('click', closeLb);
+    lb.querySelector('.lb-prev').addEventListener('click', () => openAt(at - 1));
+    lb.querySelector('.lb-next').addEventListener('click', () => openAt(at + 1));
+    /* 点空白处关掉，但别把点在图片/说明上的也算进来 */
+    lb.addEventListener('click', e => { if (e.target === lb || e.target === lbMedia) closeLb(); });
+    addEventListener('keydown', e => {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') closeLb();
+      else if (e.key === 'ArrowLeft') openAt(at - 1);
+      else if (e.key === 'ArrowRight') openAt(at + 1);
+    });
+  }
+}
+
 /* ── 入场 ──────────────────────────────────────────────────── */
 if (!reduced) {
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: .08, rootMargin: '0px 0px -40px' });
