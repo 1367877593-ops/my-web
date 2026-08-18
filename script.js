@@ -222,24 +222,34 @@ const aigcGrid = document.getElementById('aigcGrid');
 if (aigcGrid) {
   const works = Array.isArray(window.AIGC_WORKS) ? window.AIGC_WORKS : [];
   const SERIES = Array.isArray(window.AIGC_SERIES) ? window.AIGC_SERIES : [];
+  const FORMATS = Array.isArray(window.AIGC_FORMATS) ? window.AIGC_FORMATS : [];
+  const fmtRow = document.getElementById('aigcFormats');
   const cats = document.getElementById('aigcCats');
   const emptyBox = document.getElementById('aigcEmpty');
   const lb = document.getElementById('lightbox');
   const lbMedia = document.getElementById('lbMedia');
   const lbCap = document.getElementById('lbCap');
-  const countOf = s => works.filter(w => w.series === s).length;
+  const countType = t => works.filter(w => w.type === t).length;
+  /* 空的格式/系列一律当「全部」讲，两级都能落在全部上 */
+  const countIn = (t, series) => works.filter(w => (!t || w.type === t) && (!series || w.series === series)).length;
+  const labelOf = t => t ? ((FORMATS.find(f => f.type === t) || {}).label || '') : '作品';
   const badge = n => n ? ` <i>${n}</i>` : '';
   const thumbOf = w => w.thumb || w.poster || w.src;
 
   let view = works;  /* 当前筛选结果，灯箱只在这一份里前后翻 */
   let at = 0;
+  let curFormat = '';  /* 一级，空 = 不限格式 */
+  let curSeries = '';  /* 二级，空 = 该格式下全部 */
 
-  const paint = series => {
-    view = series ? works.filter(w => w.series === series) : works;
+  const paint = () => {
+    view = works.filter(w => (!curFormat || w.type === curFormat) && (!curSeries || w.series === curSeries));
     aigcGrid.hidden = !view.length;
     if (emptyBox) {
       emptyBox.hidden = !!view.length;
-      if (!view.length) emptyBox.querySelector('p').textContent = series ? '这个系列还在整理。' : '作品正在整理，很快放上来。';
+      if (!view.length) emptyBox.querySelector('p').textContent =
+        !works.length ? '作品正在整理，很快放上来。'
+        : curSeries ? `「${curSeries}」下还没有${labelOf(curFormat)}。`
+        : `${labelOf(curFormat)}还在整理。`;
     }
     if (!view.length) { aigcGrid.innerHTML = ''; return; }
     aigcGrid.innerHTML = view.map((w, i) => `<button class="shot${w.wide ? ' wide' : ''}" type="button" data-i="${i}">
@@ -248,17 +258,37 @@ ${w.type === 'video' ? '<i class="shot-play" aria-hidden="true">▶</i>' : ''}
 <span class="shot-meta"><b>${esc(w.title)}</b><em>${esc(w.series || '')}</em></span></button>`).join('');
   };
 
+  /* 二级要重画，不能只切 on —— 换了格式，系列旁边的计数就变了 */
+  const paintSeriesRow = () => {
+    if (!cats) return;
+    cats.innerHTML = `<button class="${curSeries ? '' : 'on'}">全部${badge(countIn(curFormat, ''))}</button>` +
+      SERIES.map(s => `<button data-series="${esc(s)}"${curSeries === s ? ' class="on"' : ''}>${esc(s)}${badge(countIn(curFormat, s))}</button>`).join('');
+  };
+
+  if (fmtRow && FORMATS.length) {
+    fmtRow.innerHTML = `<button class="on">全部${badge(works.length)}</button>` +
+      FORMATS.map(f => `<button data-format="${esc(f.type)}">${esc(f.label)}${badge(countType(f.type))}</button>`).join('');
+    fmtRow.addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b || (b.dataset.format || '') === curFormat) return;
+      curFormat = b.dataset.format || '';
+      curSeries = '';  /* 换格式就把系列收回「全部」，否则会停在一个空结果上 */
+      fmtRow.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+      paintSeriesRow();
+      paint();
+    });
+  }
   if (cats && SERIES.length) {
-    cats.innerHTML = `<button class="on" data-series="">全部${badge(works.length)}</button>` +
-      SERIES.map(s => `<button data-series="${esc(s)}">${esc(s)}${badge(countOf(s))}</button>`).join('');
     cats.addEventListener('click', e => {
       const b = e.target.closest('button');
       if (!b) return;
-      [...cats.children].forEach(x => x.classList.toggle('on', x === b));
-      paint(b.dataset.series);
+      curSeries = b.dataset.series || '';
+      cats.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+      paint();
     });
   }
-  paint('');
+  paintSeriesRow();
+  paint();
 
   /* ── 灯箱 ── */
   if (lb && lbMedia && lbCap) {

@@ -145,6 +145,14 @@ a.pick:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 
 .cats button:hover{border-color:var(--accent);color:var(--accent)}
 .cats button.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 .cats button i{font-style:normal;opacity:.55;margin-left:7px}
+/* 两级筛选：一级是格式，二级是该格式下的系列。
+   二级缩进 + 一个折角，让人一眼看出它挂在上面那一行底下，
+   不是并排的第四第五个选项。 */
+.cats-l1{margin-bottom:0}
+.cats-l1 button{font-size:12px;padding:12px 20px}
+.cats-l2{position:relative;margin:12px 0 0;padding-left:34px}
+.cats-l2::before{content:"";position:absolute;left:15px;top:-10px;width:12px;height:26px;border-left:1px solid var(--line);border-bottom:1px solid var(--line);border-bottom-left-radius:7px}
+.cats-l2 button{padding:9px 15px;font-size:10.5px}
 
 /* ============ AI 工作流：流程带 ============ */
 .flowline{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 30px;padding:0}
@@ -268,15 +276,65 @@ footer{position:relative;z-index:1;padding:26px var(--gut);background:var(--ink)
 .reveal.visible{opacity:1;transform:none}
 @keyframes slide{to{transform:translateX(-50%)}}
 
+/* ============ AIGC 作品集 ============
+   网格里统一竖版 3/4，横构图的在 aigc.js 里标 wide 占两格 ——
+   尺寸不一的图混排会把行高撕得很碎，宁可裁也要保住网格。
+   原件只在灯箱里加载，列表始终只有缩略图。 */
+.aigc-page .gallery{margin-top:26px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.shot{position:relative;display:block;padding:0;aspect-ratio:3/4;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface);cursor:pointer;transition:transform .3s,border-color .3s,box-shadow .3s}
+.shot.wide{grid-column:span 2;aspect-ratio:3/2}
+.shot img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .5s}
+.shot:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 18px 44px rgba(10,10,10,.1)}
+.shot:hover img{transform:scale(1.04)}
+.shot-meta{position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:4px;padding:38px 15px 13px;text-align:left;color:#fff;background:linear-gradient(transparent,rgba(10,10,10,.74))}
+.shot-meta b{font-family:var(--font-cn);font-size:14px;font-weight:600;line-height:1.4}
+.shot-meta em{font:500 10px var(--font-mono);font-style:normal;letter-spacing:.1em;opacity:.72}
+.shot-play{position:absolute;top:12px;right:12px;display:grid;place-items:center;width:30px;height:30px;border-radius:99px;background:rgba(10,10,10,.55);color:#fff;font:400 10px/1 var(--font-mono);font-style:normal;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+
+/* ============ 灯箱 ============ */
+body.lb-open{overflow:hidden}
+.lb{position:fixed;inset:0;z-index:200;display:grid;grid-template-columns:minmax(0,1fr) minmax(272px,32%);background:rgba(8,8,8,.94);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.lb-stage{grid-column:1;grid-row:1;display:grid;place-items:center;min-width:0;min-height:0;padding:clamp(20px,4vw,56px)}
+.lb-stage img,.lb-stage video{max-width:100%;max-height:86vh;display:block;border-radius:10px;background:#111}
+.lb-cap{grid-column:2;grid-row:1;align-self:center;padding:clamp(24px,3vw,46px);color:#f5f4f0;border-left:1px solid rgba(245,244,240,.14)}
+.lb-idx{display:block;margin-bottom:18px;font:600 11px var(--font-mono);letter-spacing:.14em;color:var(--accent)}
+.lb-cap h3{font-family:var(--font-cn);font-size:clamp(20px,2vw,27px);font-weight:600;letter-spacing:0}
+.lb-cap em{display:block;margin-top:10px;font:500 11px var(--font-mono);font-style:normal;letter-spacing:.08em;color:rgba(245,244,240,.5)}
+.lb-cap p{margin:18px 0 0;font-family:var(--font-cn);font-size:14px;line-height:1.8;color:rgba(245,244,240,.76)}
+.lb-cap details{margin-top:22px;border-top:1px solid rgba(245,244,240,.14);padding-top:16px}
+.lb-cap summary{font:600 11px var(--font-mono);letter-spacing:.14em;color:var(--accent);cursor:pointer}
+.lb-cap details p{font-size:13px;color:rgba(245,244,240,.62)}
+.lb-btn{display:grid;place-items:center;width:44px;height:44px;z-index:2;border:1px solid rgba(245,244,240,.22);border-radius:99px;background:rgba(8,8,8,.5);color:#f5f4f0;font:400 20px/1 var(--font-display);cursor:pointer;transition:.25s}
+.lb-btn:hover{border-color:var(--accent);color:var(--accent)}
+.lb-close{position:absolute;top:22px;right:22px;font-size:15px}
+/* 翻页键压在图片那一栏里，跟着栅格走 —— 说明栏宽度是弹性的，
+   写死百分比在窄一点的桌面窗口上会飘到图上面 */
+.lb-prev,.lb-next{grid-column:1;grid-row:1;align-self:center;margin:0 14px}
+.lb-prev{justify-self:start}
+.lb-next{justify-self:end}
+
 /* ============ 响应式 ============ */
 @media(max-width:900px){
   .about-split{grid-template-columns:1fr;gap:34px}
   .co-grid{grid-template-columns:repeat(2,1fr)}
   .contact-list{margin-top:8px}
+  /* 窄屏放不下「图 + 说明」两栏，说明整段落到图下面。
+     翻页键改成钉在屏幕底部浮着，说明栏留出 84px 底部空档别被压住 */
+  .lb{grid-template-columns:1fr;grid-template-rows:auto auto;align-content:start;overflow-y:auto}
+  .lb-stage{grid-column:1;grid-row:1;padding:64px 18px 14px}
+  .lb-stage img,.lb-stage video{max-height:64vh}
+  .lb-cap{grid-column:1;grid-row:2;align-self:start;border-left:0;border-top:1px solid rgba(245,244,240,.14);padding:22px 18px 84px}
+  .lb-close{position:fixed}
+  .lb-prev,.lb-next{position:fixed;grid-column:auto;grid-row:auto;bottom:16px;margin:0;background:rgba(8,8,8,.85)}
+  .lb-prev{left:18px}
+  .lb-next{right:18px}
 }
 @media(max-width:640px){
   :root{--gut:18px}
   .rail{display:none}
+  .cats-l2{padding-left:24px}
+  .cats-l2::before{left:8px}
   .topbar{padding:14px 18px}
   .lang{padding:9px 14px;font-size:11px;gap:8px}
   .hero-track{height:260vh}
@@ -292,6 +350,8 @@ footer{position:relative;z-index:1;padding:26px var(--gut);background:var(--ink)
   .deck p{font-size:13.5px}
   .deck-tag,.deck-link{position:static;align-self:flex-start;margin-top:16px}
   .contact-list dd{font-size:12.5px}
+  .gallery{grid-template-columns:repeat(2,1fr);gap:10px}
+  .shot.wide{grid-column:span 2;aspect-ratio:16/10}
   .note{grid-template-columns:1fr;gap:8px;padding:24px 0}
   .note .tail{margin-top:12px}
   .note i{opacity:1;transform:none}
