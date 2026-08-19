@@ -117,28 +117,201 @@ else if (heroVids.length === 2) {
 }
 else if (heroVideo) play(heroVideo);
 
-/* ── 项目：堆叠卡组 ────────────────────────────────────────── */
+/* ── 项目：深度轨道卡组 ──────────────────────────────────────
+   移植自 React Bits 的 DepthCarousel：卡片沿一条向后的轨道排开，
+   每退一层就侧移、绕 Y 轴转一点、变暗并加模糊，露出后面卡片的边。
+   原组件是 React + GSAP，这个站没有构建流程，所以用原生 DOM 重写，
+   缓动用一个十几行的 RAF 实现 power3.out，不为一条缓动曲线引 70KB。
+
+   参数是按这个站的卡片调的 —— 原组件的默认值面向 300×380 的竖图，
+   这里的卡是 860px 宽的文字卡：tilt 调小（宽卡转 22° 摆幅过大），
+   tint 从近黑换成暖灰（白卡上乘一层近黑会脏），falloff 也压低。 */
 const deck = document.getElementById('deck'), deckIdx = document.getElementById('deckIdx');
 if (deck) {
-  const cards = [...deck.children], n = cards.length;
-  let top = 0;
-  function paintDeck() {
-    cards.forEach((c, i) => {
-      const off = (i - top + n) % n;
-      c.style.transform = `translate(${off * 12}px,${off * 16}px) scale(${1 - off * .045})`;
-      c.style.opacity = off > 2 ? 0 : 1;
-      c.style.zIndex = String(n - off);
-      c.style.pointerEvents = off === 0 ? 'auto' : 'none';
-      c.setAttribute('aria-hidden', off === 0 ? 'false' : 'true');
-    });
-    deckIdx.textContent = String(top + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0');
+  const cards = [...deck.querySelectorAll('article')], n = cards.length;
+  /* 宽屏才扇得开。780px 的卡放在 390px 的屏上没有侧移的余地 ——
+     硬扇只会把卡缩小又推偏，所以窄屏退回「只有深度」的堆叠：
+     保留后推、模糊、压暗，去掉侧移和倾斜，卡片满宽居中。 */
+  const WIDE = {
+    depth: 190,        // 每退一层往后推的距离
+    spread: 210,       // 每退一层的侧移
+    tilt: 18,          // 绕 Y 轴的角度，只在第一层生效后保持
+    visible: 3,        // 往后可见几层
+    bias: .75,         // 整条轨道左移 spread*bias，抵消向右扇开的偏心
+    blur: 5
+  };
+  const NARROW = { depth: 90, spread: 0, tilt: 0, visible: 2, bias: 0, blur: 4 };
+  const CFG = {
+    dir: 1,            // 1 = 向右扇开
+    falloff: .11,      // 变暗 / 上色 / 模糊随深度增长的速度
+    dur: 620,
+    loop: true,
+    ...WIDE
+  };
+  const fit = w => Object.assign(CFG, w >= 700 ? WIDE : NARROW);
+  const clamp = (v, a, b) => Math.min(Math.max(v, a), b);
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 压暗用的叠层。放在卡内而不是用 box-shadow，是因为要 multiply 混合，
+     白底卡才不会被压成灰糊 */
+  cards.forEach(c => {
+    const t = document.createElement('span');
+    t.className = 'deck-tint';
+    t.setAttribute('aria-hidden', 'true');
+    c.appendChild(t);
+  });
+
+  /* 指示点：卡片一多，光看 01/07 数不出自己在哪 */
+  const dots = document.createElement('div');
+  dots.className = 'deck-dots';
+  dots.setAttribute('role', 'tablist');
+  dots.setAttribute('aria-label', '项目');
+  dots.innerHTML = cards.map((c, i) =>
+    `<button type="button" role="tab" class="deck-dot" data-i="${i}" aria-label="第 ${i + 1} 个项目"></button>`).join('');
+  document.querySelector('.deck-ctl')?.insertBefore(dots, document.getElementById('deckIdx'));
+
+  let pos = 0, focus = 0, scale = 1, raf = 0;
+
+  function layout(p) {
+    for (let i = 0; i < n; i++) {
+      const el = cards[i];
+      let d = i - p;
+      if (CFG.loop && n > 1) { d = ((d % n) + n) % n; if (d > n / 2) d -= n; }
+      const back = Math.max(0, d), shown = Math.abs(d) <= CFG.visible + .5;
+      const tz = -CFG.depth * d, tx = CFG.dir * CFG.spread * (d - CFG.bias), ry = CFG.dir * CFG.tilt * clamp(d, 0, 1);
+      /* 往前走的卡（d<0）淡出，别让它糊在最前面挡住视线 */
+      let op = d < 0 ? Math.max(0, 1 + d)
+             : Math.max(0, 1 - back / (CFG.visible + 1) * .5);   // 越深越淡，轨道消散而不是被切断
+      if (!shown) op = 0;
+      const bright = Math.max(.15, 1 - back * CFG.falloff);
+      const bl = CFG.blur > 0 ? Math.min(CFG.blur, (back / Math.max(1, CFG.visible)) * CFG.blur) : 0;
+      el.style.transform = `translate(-50%,-50%) scale(${scale}) translateX(${tx.toFixed(2)}px) translateZ(${tz.toFixed(2)}px) rotateY(${ry.toFixed(3)}deg)`;
+      el.style.opacity = op.toFixed(3);
+      el.style.filter = `brightness(${bright.toFixed(3)}) blur(${bl.toFixed(2)}px)`;
+      el.style.zIndex = String(Math.round(2000 - d * 20));
+      el.style.pointerEvents = shown && op > .05 ? 'auto' : 'none';
+      el.setAttribute('aria-hidden', i === focus ? 'false' : 'true');
+      const t = el.lastElementChild;
+      if (t && t.className === 'deck-tint') t.style.opacity = clamp(back * CFG.falloff * 1.15, 0, .8).toFixed(3);
+    }
   }
-  const cycle = d => { top = (top + d + n) % n; paintDeck(); };
-  /* 点卡片本身翻页，但别抢走卡内链接的点击 */
-  deck.addEventListener('click', e => { if (!e.target.closest('a')) cycle(1); });
+
+  function mark() {
+    deckIdx.textContent = String(focus + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0');
+    dots.querySelectorAll('.deck-dot').forEach((b, i) => {
+      b.classList.toggle('on', i === focus);
+      b.setAttribute('aria-selected', i === focus ? 'true' : 'false');
+    });
+  }
+
+  const norm = () => { if (n) pos = ((pos % n) + n) % n; };
+
+  function tweenTo(target, animate) {
+    cancelAnimationFrame(raf);
+    if (!animate || reduced) { pos = target; norm(); layout(pos); return; }
+    const from = pos, delta = target - from, t0 = performance.now();
+    const step = now => {
+      const t = Math.min(1, (now - t0) / CFG.dur);
+      pos = from + delta * (1 - Math.pow(1 - t, 3));   // power3.out
+      layout(pos);
+      if (t < 1) raf = requestAnimationFrame(step);
+      else { norm(); layout(pos); }
+    };
+    raf = requestAnimationFrame(step);
+  }
+
+  function setFocus(raw, animate = true) {
+    if (!n) return;
+    const idx = CFG.loop ? ((raw % n) + n) % n : clamp(raw, 0, n - 1);
+    let delta = idx - pos;
+    if (CFG.loop && n > 1) { delta = ((delta % n) + n) % n; if (delta > n / 2) delta -= n; }
+    focus = idx;
+    mark();
+    tweenTo(pos + delta, animate);
+  }
+  const cycle = d => setFocus(focus + d, true);
+
+  /* 先按宽度选档，再决定要不要整体缩。
+     只在真的铺不下时才缩 —— 窄屏 spread 已经是 0，不该再被缩一次。
+     必须同步量一次再画首帧：ResizeObserver 的首个回调要等下一帧，
+     等它的话窄屏会先闪一下宽屏布局。RO 和 resize 只负责后续变化。 */
+  function measure() {
+    const w = deck.clientWidth || innerWidth;
+    fit(w);
+    const cw = cards[0]?.offsetWidth || 780;
+    /* 余量只在真的扇开时才留；窄屏 spread 是 0，留了只会平白把卡缩小 */
+    const extent = cw + Math.abs(CFG.spread) * 2 + (CFG.spread ? 100 : 0);
+    scale = extent > w ? clamp(w / extent, .55, 1) : 1;
+  }
+  const remeasure = () => { measure(); layout(pos); };
+  const ro = new ResizeObserver(remeasure);   // 存成变量，别让它被回收
+  ro.observe(deck);
+  addEventListener('resize', remeasure);
+
+  /* 拖拽 */
+  let drag = null;
+  const stepPx = () => Math.max((cards[0]?.offsetWidth || 860) * .38 * scale, 40);
+  deck.addEventListener('pointerdown', e => {
+    if (n < 2 || e.target.closest('a')) return;
+    cancelAnimationFrame(raf);
+    drag = { x: e.clientX, from: pos, lastX: e.clientX, lastT: performance.now(), v: 0, moved: false, id: e.pointerId };
+  });
+  deck.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const dx = e.clientX - drag.x;
+    if (!drag.moved && Math.abs(dx) > 4) { drag.moved = true; deck.setPointerCapture(drag.id); }
+    if (!drag.moved) return;
+    const now = performance.now(), dt = Math.max(now - drag.lastT, 1);
+    drag.v = (e.clientX - drag.lastX) / dt; drag.lastX = e.clientX; drag.lastT = now;
+    pos = drag.from - dx / stepPx();
+    layout(pos);
+  });
+  const endDrag = () => {
+    if (!drag) return;
+    const d = drag; drag = null;
+    if (!d.moved) return;
+    setFocus(Math.round(pos - d.v * 180 / stepPx()), true);   // 带一点惯性
+  };
+  deck.addEventListener('pointerup', endDrag);
+  deck.addEventListener('pointercancel', endDrag);
+
+  /* 滚轮：横向滚优先，停手 130ms 后吸附到最近一张 */
+  let wheelT = 0;
+  deck.addEventListener('wheel', e => {
+    if (n < 2) return;
+    const raw = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;   // 纵向滚轮留给页面
+    e.preventDefault();
+    cancelAnimationFrame(raf);
+    pos += clamp((e.deltaMode === 1 ? raw * 24 : raw) / ((cards[0]?.offsetWidth || 860) * .5), -.6, .6);
+    layout(pos);
+    clearTimeout(wheelT);
+    wheelT = setTimeout(() => setFocus(Math.round(pos), true), 130);
+  }, { passive: false });
+
+  /* 点后面的卡把它拉到最前；点最前那张不动，免得误触翻页 */
+  deck.addEventListener('click', e => {
+    if (drag?.moved || e.target.closest('a')) return;
+    const card = e.target.closest('article');
+    if (!card) return;
+    const i = cards.indexOf(card);
+    if (i >= 0 && i !== focus) setFocus(i, true);
+  });
+  deck.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); cycle(-1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); cycle(1); }
+  });
+  dots.addEventListener('click', e => {
+    const b = e.target.closest('.deck-dot');
+    if (b) setFocus(Number(b.dataset.i), true);
+  });
   document.querySelector('.deck-nav.prev').addEventListener('click', e => { e.stopPropagation(); cycle(-1); });
   document.querySelector('.deck-nav.next').addEventListener('click', e => { e.stopPropagation(); cycle(1); });
-  paintDeck();
+
+  deck.tabIndex = 0;
+  mark();
+  measure();
+  layout(0);
 }
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
