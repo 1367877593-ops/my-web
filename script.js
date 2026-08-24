@@ -513,5 +513,5 @@ ${w.prompt ? `<details><summary>PROMPT</summary><p>${esc(w.prompt)}</p></details
 /* ── 入场 ──────────────────────────────────────────────────── */
 if (!reduced) {
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: .08, rootMargin: '0px 0px -40px' });
-  document.querySelectorAll('.head,.about-grid,.flow,.deck,.group-label,.co-grid,.contact-title,.contact-list').forEach(el => { el.classList.add('reveal'); io.observe(el); });
+  document.querySelectorAll('.head p,.about-grid,.flow,.deck,.group-label,.co-grid,.contact-title,.contact-list').forEach(el => { el.classList.add('reveal'); io.observe(el); });
 }
