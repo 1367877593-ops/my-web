@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="张昕煜的思考现场 — 关于 AI、关于产品、关于一个人怎么在变化里保持长期"><title>◤ 张昕煜 // 思考现场 ◢</title><link rel="canonical" href="https://zhangxinyuzxy.com/"><meta property="og:type" content="website"><meta property="og:title" content="张昕煜 · 思考现场"><meta property="og:description" content="关于 AI、关于产品、关于一个人怎么在变化里保持长期。"><meta property="og:url" content="https://zhangxinyuzxy.com/"><meta property="og:image" content="https://zhangxinyuzxy.com/assets/hero.png"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"张昕煜","alternateName":"ZHANG XINYU","url":"https://zhangxinyuzxy.com/","jobTitle":"AI 产品经理","sameAs":["https://github.com/1367877593-ops"]}</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20260824-2"><link rel="stylesheet" href="fold-text.css?v=20260824-1"></head><body>
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="张昕煜的思考现场 — 关于 AI、关于产品、关于一个人怎么在变化里保持长期"><title>◤ 张昕煜 // 思考现场 ◢</title><link rel="canonical" href="https://zhangxinyuzxy.com/"><meta property="og:type" content="website"><meta property="og:title" content="张昕煜 · 思考现场"><meta property="og:description" content="关于 AI、关于产品、关于一个人怎么在变化里保持长期。"><meta property="og:url" content="https://zhangxinyuzxy.com/"><meta property="og:image" content="https://zhangxinyuzxy.com/assets/hero.png"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"张昕煜","alternateName":"ZHANG XINYU","url":"https://zhangxinyuzxy.com/","jobTitle":"AI 产品经理","sameAs":["https://github.com/1367877593-ops"]}</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20260825-1"><link rel="stylesheet" href="fold-text.css?v=20260824-1"></head><body>
 
 <!-- 开场：橙色满屏 → 字母液态融合 → 闪光 → 融合后的 X 变成镂空洞放大，露出人物 -->
 <div class="intro" id="intro">
@@ -83,17 +83,26 @@
   </div>
 </section>
 
-<!-- ── WORK：堆叠卡组 ─────────────────────────────────────── -->
+<!-- ── WORK：项目封面网格 ─────────────────────────────────── -->
 <section class="panel" id="projects">
   <div class="panel-in">
     <header class="head"><h2>WHAT I HAVE DONE</h2><p>我做过的项目。</p></header>
-    <div class="deck" id="deck">
-      <article><small>AIGC · IMAGE &amp; VIDEO</small><h3>AIGC 作品集</h3><p>用 AI 做的图和视频。东方美学、敦煌壁画、诗词场景，从提示词到成片自己走通一遍。</p><em>Prompt · Image · Video</em><a class="deck-link" href="aigc.html">进入作品集 ↗</a></article>
-      <article><small>AI · HIRING</small><h3>简历筛选 Agent</h3><p>输入 JD 与简历，输出可审计的匹配评分、推进决策与针对性面试题。每条判断都指回简历原文，再由独立 Checker 回头查证据撑不撑得住。</p><em>Demo 可直接在线跑</em><a class="deck-link" href="resume-agent.html">跑一遍 Demo ↗</a></article>
-      <article><small>AI · LEGAL DOCUMENT</small><h3>AI 合同生成和审查助手</h3><p>把合同切成条款逐条判风险，每条都指回原文，并给出可直接替换的条款文本。换个审查立场，同一份合同的评分和风险清单都会变。</p><em>Demo 可直接在线跑</em><a class="deck-link" href="qihe.html">跑一遍 Demo ↗</a></article>
-      <article><small>AI · LEGAL RETRIEVAL</small><h3>AI 法律检索助手</h3><p>法律检索场景的问答与定位工具，把零散的法条、案例和检索意图对齐到同一套结构里。</p><em>Retrieval · RAG · QA</em><span class="deck-tag">暂无公开链接</span></article>
-      <article><small>PRODUCT · WEB APP</small><h3>Night Repair 夜间修复</h3><p>一个已经上线可访问的小产品，从想法、界面到部署由我完整走通一遍。</p><em>Web · Design · Deploy</em><a class="deck-link" href="https://1367877593-ops.github.io/Night-repair-App/" target="_blank" rel="noopener noreferrer">查看项目 ↗</a></article>
-      <article data-project="anti-ai-writing-skill">
+    <div class="deck project-grid" id="deck">
+      <article class="project-card project-card-cover">
+        <a class="project-cover" href="aigc.html" aria-label="进入 AIGC 作品集"><img src="assets/project-aigc-cover.jpg" width="1600" height="900" loading="lazy" alt="AIGC 作品集封面"></a>
+        <div class="project-copy"><small>AIGC · IMAGE &amp; VIDEO</small><h3>AIGC 作品集</h3><p>用 AI 做的图和视频。东方美学、敦煌壁画、诗词场景，从提示词到成片自己走通一遍。</p><em>Prompt · Image · Video</em><a class="deck-link" href="aigc.html">进入作品集 ↗</a></div>
+      </article>
+      <article class="project-card project-card-cover">
+        <a class="project-cover" href="resume-agent.html" aria-label="进入简历筛选 Agent"><img src="assets/project-resume-cover.jpg" width="1600" height="900" loading="lazy" alt="简历筛选 Agent 封面"></a>
+        <div class="project-copy"><small>AI · HIRING</small><h3>简历筛选 Agent</h3><p>输入 JD 与简历，输出可审计的匹配评分、推进决策与针对性面试题。每条判断都指回简历原文，再由独立 Checker 回头查证据撑不撑得住。</p><em>Demo 可直接在线跑</em><a class="deck-link" href="resume-agent.html">跑一遍 Demo ↗</a></div>
+      </article>
+      <article class="project-card project-card-cover">
+        <a class="project-cover" href="qihe.html" aria-label="进入 AI 合同生成和审查助手"><img src="assets/project-contract-cover.jpg" width="1600" height="900" loading="lazy" alt="AI 合同生成和审查助手封面"></a>
+        <div class="project-copy"><small>AI · LEGAL DOCUMENT</small><h3>AI 合同生成和审查助手</h3><p>把合同切成条款逐条判风险，每条都指回原文，并给出可直接替换的条款文本。换个审查立场，同一份合同的评分和风险清单都会变。</p><em>Demo 可直接在线跑</em><a class="deck-link" href="qihe.html">跑一遍 Demo ↗</a></div>
+      </article>
+      <article class="project-card project-card-text"><small>AI · LEGAL RETRIEVAL</small><h3>AI 法律检索助手</h3><p>法律检索场景的问答与定位工具，把零散的法条、案例和检索意图对齐到同一套结构里。</p><em>Retrieval · RAG · QA</em><span class="deck-tag">暂无公开链接</span></article>
+      <article class="project-card project-card-text"><small>PRODUCT · WEB APP</small><h3>Night Repair 夜间修复</h3><p>一个已经上线可访问的小产品，从想法、界面到部署由我完整走通一遍。</p><em>Web · Design · Deploy</em><a class="deck-link" href="https://1367877593-ops.github.io/Night-repair-App/" target="_blank" rel="noopener noreferrer">查看项目 ↗</a></article>
+      <article class="project-card project-card-text" data-project="anti-ai-writing-skill">
         <!-- 后续填充：项目分类 -->
         <small hidden></small>
         <h3>去文章 AI 味的 Skill</h3>
@@ -105,7 +114,7 @@
         <span class="deck-tag" hidden></span>
         <a class="deck-link" hidden></a>
       </article>
-      <article data-project="flick">
+      <article class="project-card project-card-text" data-project="flick">
         <!-- 后续填充：项目分类 -->
         <small hidden></small>
         <h3>划词的 Flick</h3>
@@ -118,7 +127,6 @@
         <a class="deck-link" hidden></a>
       </article>
     </div>
-    <div class="deck-ctl"><button class="deck-nav prev" type="button" aria-label="上一个项目">‹</button><span class="deck-idx" id="deckIdx">01 / 07</span><button class="deck-nav next" type="button" aria-label="下一个项目">›</button></div>
   </div>
 </section>
 
@@ -176,4 +184,4 @@
 </main>
 
 <footer><span>© 2026 ZHANG XINYU</span><span>THANK YOU FOR VISITING</span></footer>
-<script src="notes.js?v=20260810-3"></script><script src="vendor/gsap.min.js?v=3.13.0"></script><script src="vendor/ScrollTrigger.min.js?v=3.13.0"></script><script src="fold-text.js?v=20260824-1"></script><script src="script.js?v=20260824-1"></script></body></html>
+<script src="notes.js?v=20260810-3"></script><script src="vendor/gsap.min.js?v=3.13.0"></script><script src="vendor/ScrollTrigger.min.js?v=3.13.0"></script><script src="fold-text.js?v=20260824-1"></script><script src="script.js?v=20260825-1"></script></body></html>

@@ -127,7 +127,7 @@ else if (heroVideo) play(heroVideo);
    这里的卡是 860px 宽的文字卡：tilt 调小（宽卡转 22° 摆幅过大），
    tint 从近黑换成暖灰（白卡上乘一层近黑会脏），falloff 也压低。 */
 const deck = document.getElementById('deck'), deckIdx = document.getElementById('deckIdx');
-if (deck) {
+if (deck && deckIdx && !deck.classList.contains('project-grid')) {
   const cards = [...deck.querySelectorAll('article')], n = cards.length;
   /* 宽屏才扇得开。780px 的卡放在 390px 的屏上没有侧移的余地 ——
      硬扇只会把卡缩小又推偏，所以窄屏退回「只有深度」的堆叠：

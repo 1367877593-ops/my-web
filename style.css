@@ -171,37 +171,30 @@ a.pick:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 
 .iface li{margin:0 0 7px}
 .iface .say{margin:0;font-family:var(--font-cn);font-size:clamp(18px,2.2vw,28px);line-height:1.45;font-weight:600}
 
-/* ============ 项目：堆叠卡组 ============ */
-/* 深度轨道：透视放在容器上，卡片自己带 3D 变换。
-   容器改成整幅宽度（卡片仍是 860），扇开的卡才有地方摊。 */
-/* 轨道向右扇开会撑出视口，在板块上裁掉。用 clip 不用 hidden ——
-   hidden 会把这一层变成滚动容器，clip 不会 */
+/* ============ 项目：封面网格 ============ */
 #projects{overflow-x:clip}
-.deck{position:relative;height:clamp(360px,50vh,470px);width:100%;margin:0 auto;
-  perspective:1600px;perspective-origin:50% 50%;
-  cursor:grab;touch-action:pan-y;outline:none;user-select:none;-webkit-user-select:none}
-.deck:active{cursor:grabbing}
-.deck:focus-visible{outline:2px solid var(--accent);outline-offset:6px;border-radius:24px}
-.deck article{position:absolute;top:50%;left:50%;width:min(100%,780px);height:100%;margin:0;padding:clamp(28px,3vw,44px);background:var(--card);border:1px solid var(--line);border-radius:24px;display:flex;flex-direction:column;transform-origin:center center;
-  box-shadow:0 30px 60px -18px rgba(10,10,10,.22),0 8px 20px -10px rgba(10,10,10,.14);
-  will-change:transform,opacity,filter}
-/* 压暗层用 multiply —— 白底卡直接叠半透明黑会发灰发脏 */
-.deck-tint{position:absolute;inset:0;border-radius:inherit;opacity:0;pointer-events:none;mix-blend-mode:multiply;background:#c8c4b8}
-.deck small{font:600 11px var(--font-mono);letter-spacing:.14em;color:var(--accent)}
-.deck h3{margin:14px 0 18px;font-size:clamp(26px,3.4vw,44px);font-family:var(--font-cn)}
-.deck p{margin:0;max-width:60ch;font-family:var(--font-cn);font-size:clamp(14px,1.1vw,16px);line-height:1.85;color:var(--muted-ink)}
-.deck em{margin-top:auto;font:500 11px var(--font-mono);font-style:normal;letter-spacing:.08em;color:var(--muted-ink)}
-.deck-tag,.deck-link{position:absolute;right:clamp(28px,3vw,44px);bottom:clamp(28px,3vw,44px);padding:9px 16px;border:1px solid var(--line);border-radius:99px;font:600 11px var(--font-mono);letter-spacing:.06em;color:var(--muted-ink)}
-.deck-link{border-color:var(--accent);color:var(--accent);transition:.25s}
-.deck-link:hover{background:var(--accent);color:#fff}
-.deck-ctl{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:34px}
-.deck-nav{width:42px;height:42px;border:1px solid var(--line);border-radius:99px;background:transparent;font:400 20px/1 var(--font-display);color:var(--ink);cursor:pointer;transition:.25s}
-.deck-nav:hover{border-color:var(--accent);color:var(--accent)}
-.deck-idx{font:600 12px var(--font-mono);letter-spacing:.12em;color:var(--muted-ink)}
-.deck-dots{display:flex;align-items:center;gap:7px}
-.deck-dot{width:7px;height:7px;padding:0;border:none;border-radius:99px;background:rgba(10,10,10,.2);cursor:pointer;transition:width .25s,background .25s}
-.deck-dot:hover{background:rgba(10,10,10,.38)}
-.deck-dot.on{width:22px;background:var(--accent)}
+.project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,2.6vw,38px);width:100%;margin:0 auto}
+.project-grid .project-card{position:relative;min-width:0}
+.project-grid .project-card-cover{display:flex;flex-direction:column;background:transparent}
+.project-cover{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--line);border-radius:9px;background:var(--surface);box-shadow:0 12px 30px rgba(50,37,27,.08);transform:translateZ(0);transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .5s}
+.project-cover::after{content:"";position:absolute;right:0;bottom:0;left:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.project-cover img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .75s cubic-bezier(.2,.8,.2,1),filter .45s}
+.project-card-cover:hover .project-cover{transform:translateY(-5px);border-color:rgba(255,90,31,.78);box-shadow:0 20px 42px rgba(50,37,27,.13),0 0 24px rgba(255,90,31,.08)}
+.project-card-cover:hover .project-cover::after{transform:scaleX(1)}
+.project-card-cover:hover .project-cover img{transform:scale(1.025);filter:saturate(1.05) contrast(1.03)}
+.project-copy{display:flex;flex:1;flex-direction:column;padding:22px 12px 0;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.project-card-cover:hover .project-copy{transform:translateY(-2px)}
+.project-grid small{font:600 10px var(--font-mono);letter-spacing:.12em;color:var(--muted-ink)}
+.project-grid h3{margin:9px 0 14px;font-family:var(--font-cn);font-size:clamp(20px,2vw,28px);line-height:1.28;color:var(--accent)}
+.project-grid p{margin:0;font-family:var(--font-cn);font-size:clamp(13px,1.05vw,15px);line-height:1.85;color:var(--muted-ink)}
+.project-grid em{margin-top:18px;font:500 10px var(--font-mono);font-style:normal;letter-spacing:.06em;color:var(--muted-ink)}
+.project-grid .deck-tag,.project-grid .deck-link{position:static;align-self:flex-start;margin-top:14px;padding:0;border:0;border-radius:0;font:600 11px var(--font-mono);letter-spacing:.06em;color:var(--muted-ink)}
+.project-grid .deck-link{color:var(--accent);transition:transform .25s,color .25s}
+.project-grid .deck-link:hover{color:var(--ink);transform:translateX(4px)}
+.project-grid .project-card-text{display:flex;min-height:310px;flex-direction:column;padding:28px;background:var(--card);border:1px solid var(--line);border-radius:18px;transition:transform .3s,border-color .3s,box-shadow .3s}
+.project-grid .project-card-text:hover{transform:translateY(-5px);border-color:var(--accent);box-shadow:0 18px 42px rgba(50,37,27,.1)}
+.project-grid .project-card-text h3{color:var(--ink)}
+.project-grid .project-card-text em{margin-top:auto;padding-top:20px}
 
 /* ============ NOTES：索引列表 ============
    刻意不做成卡片 —— 站内已有三处卡片，列表能形成对比，
@@ -470,6 +463,7 @@ body.lb-open{overflow:hidden}
 @media(max-width:900px){
   .about-split{grid-template-columns:1fr;gap:34px}
   .co-grid{grid-template-columns:repeat(2,1fr)}
+  .project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .contact-list{margin-top:8px}
   /* 窄屏放不下「图 + 说明」两栏，说明整段落到图下面。
      翻页键改成钉在屏幕底部浮着，说明栏留出 84px 底部空档别被压住 */
@@ -499,10 +493,9 @@ body.lb-open{overflow:hidden}
   .hero-sub{font-size:14px;max-width:none}
   .flowline li::after{content:""}
   .co-grid{grid-template-columns:1fr}
-  .deck p{font-size:13.5px}
-  .deck{height:clamp(360px,52vh,470px)}
-  .deck-tag,.deck-link{position:static;align-self:flex-start;margin-top:16px}
-  .deck-dots{display:none}
+  .project-grid{grid-template-columns:1fr;gap:42px}
+  .project-copy{padding:17px 8px 0}
+  .project-grid .project-card-text{min-height:260px}
   .contact-list dd{font-size:12.5px}
   .dgrid2{grid-template-columns:1fr;gap:30px}
   .dranks{grid-template-columns:1fr}
