@@ -271,7 +271,10 @@ a.pick:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 
 .co-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:34px}
 .co-grid article{display:flex;flex-direction:column;padding:24px;background:var(--card);border:1px solid var(--line);border-radius:18px;transition:transform .25s,box-shadow .25s,border-color .25s}
 .co-grid article:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 18px 44px rgba(10,10,10,.07)}
-.co-ic{font-style:normal;font-size:22px;line-height:1;color:var(--ink)}
+/* 品牌标识用内联 SVG，fill 写在各自元素上（品牌色不该由主题变量决定）。
+   GitHub 的 Octocat 和 OpenAI 的结绳纹细节比另外三个密，同尺寸下显得更重，
+   所以整体给到 26px，靠视觉重量而不是数字对齐。 */
+.co-ic{display:block;width:26px;height:26px}
 .co-grid small{position:absolute;opacity:0}
 .co-grid h3{margin:22px 0 4px;font-size:20px}
 .co-grid b{font-family:var(--font-cn);font-size:12px;font-weight:600;color:var(--muted-ink)}
