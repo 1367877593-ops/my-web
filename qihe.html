@@ -1,0 +1,115 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="契合：iPhone 端 AI 合同审查与生成助手。支持甲方/乙方/中立三种审查立场，每条风险绑定原文位置并给出可直接替换的条款文本。网页版可在线试用审查与生成两条流程。"><title>AI 合同审查助手 · 张昕煜</title><link rel="canonical" href="https://zhangxinyuzxy.com/qihe.html"><meta property="og:type" content="website"><meta property="og:title" content="AI 合同审查助手 · 张昕煜"><meta property="og:description" content="换个立场，同一份合同从 78 分变 41 分 —— 可在线试用的合同审查与生成 Demo。"><meta property="og:url" content="https://zhangxinyuzxy.com/qihe.html"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20260824-1"></head><body>
+
+<div class="dots" aria-hidden="true"></div>
+<div class="contours" aria-hidden="true"></div>
+
+<div class="artbar">
+  <a href="index.html">← 首页</a>
+  <a class="wordmark" href="index.html">张昕煜</a>
+  <a href="index.html#about">联系</a>
+</div>
+
+<main class="notes-page demo-page">
+  <header class="head">
+    <h2>AI 合同审查助手</h2>
+    <p>一款 iPhone 上的合同助手：把合同丢进去，输出逐条风险、原文定位和可直接替换的条款文本；也可以反过来，给出要素生成一份带待补充清单的合同草案。下面这个网页版把 App 里的两条主流程搬了过来，可以直接试。</p>
+  </header>
+
+  <!-- 问题 -->
+  <section class="dsec">
+    <div class="dlabel"><span>问题</span></div>
+    <div class="dgrid2">
+      <div>
+        <h3>为什么不是「把合同发给大模型问一句有没有坑」</h3>
+        <p>直接问，模型会回你一段读着挺专业的话。问题是这段话没法用：它说「违约金条款存在风险」，你不知道是哪一条、原文怎么写的、改成什么样才算改好了。真要拿去和对方谈，你还得自己把合同重读一遍。</p>
+        <p>还有个更隐蔽的问题：<b>合同里最要命的往往不是写错的条款，而是压根没写的条款。</b>租房合同不写出租方的权属保证，开发合同不写验收标准和期限——这些「缺失项」，你不知道该问什么，就永远问不出来。</p>
+        <p>所以这套流程把「看合同」拆成了可核对的结构：先切条款块，再逐条判定风险等级，每条风险必须附上原文摘录和字符偏移（这样 App 里点一下就能跳回原文），最后给出能直接抄进合同的替换文本，并列出援引的法条。</p>
+      </div>
+      <div>
+        <h3>一个具体的例子</h3>
+        <p>下面样例里的租赁合同，第七条写着「每逾期一日按月租金的百分之五支付违约金」。</p>
+        <p>换算一下：日 5%，年化约 1825%。<b>但有意思的是，这条对甲方也不是好事</b>——约定过高的违约金在诉讼中会被法院调减，甲方拿不到那个数字，还可能在其他争点上落入下风。</p>
+        <p>所以同一条款，站在乙方是「高风险，必须谈」，站在甲方是「中风险，建议主动改成能执行的版本」。这就是审查立场存在的意义：<b>风险不是合同的属性，是你站在哪一边的属性。</b></p>
+        <ul class="dlist">
+          <li><b>逐条风险</b> —— 高 / 中 / 低分级，附原文摘录与条款定位</li>
+          <li><b>可抄的修订</b> —— 不只说有问题，给出替换后的完整条款</li>
+          <li><b>缺失条款</b> —— 识别「该有而没有」的条款</li>
+          <li><b>法条援引</b> —— 每条风险标注依据的法律条文</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 内置功能 -->
+  <section class="dsec">
+    <div class="dlabel"><span>内置功能</span></div>
+    <div class="dcaps" id="qCaps"></div>
+  </section>
+
+  <!-- 审查 Demo -->
+  <section class="dsec" id="demo">
+    <div class="dlabel"><span>试一下 · 合同审查</span></div>
+    <div class="dnote">
+      <p><b>关于下面这份数据：</b>这是<b>按真实数据结构手写的样例</b>，不是模型跑出来的导出结果。原项目的后端没有离线回放模式，没有 API Key 就跑不出真实输出，所以这里按仓库里的 <code>ReviewResult</code> / <code>ClauseReview</code> 结构手写了等价样例，用来演示交互和输出形态。<b>交互逻辑是真的，数据是手写的。</b></p>
+      <p>建议这样试：先选好合同，<b>跑完一遍之后再切换审查立场</b> —— 评分和风险清单会当场重算。同一份租赁合同，站甲方 78 分，站乙方 41 分。</p>
+    </div>
+
+    <div class="qctl">
+      <div class="qchips" id="qSamples"></div>
+      <div class="qrow">
+        <i>审查立场</i>
+        <div class="qseg" id="qPersp"></div>
+        <span class="qhint" id="qHint"></span>
+      </div>
+    </div>
+
+    <button class="drun" id="qRun" type="button">▶ 开始审查</button>
+    <div class="dterm" id="qTerm" hidden></div>
+    <div class="dout" id="qOut" hidden></div>
+  </section>
+
+  <!-- 生成 Demo -->
+  <section class="dsec" id="gen">
+    <div class="dlabel"><span>试一下 · 合同生成</span></div>
+    <div class="dnote">
+      <p>反过来的流程：给出合同类型和几个要素，输出一份草案。没法从要素里推定的字段<b>不编</b>，而是留成占位符标出来，并说明这个字段为什么重要、通常怎么填。</p>
+      <p>草案正文里的<b>橙色块就是待补充字段，点一下会跳到下面的说明</b>。同样是手写样例数据。</p>
+    </div>
+
+    <div class="qctl">
+      <div class="qchips" id="gTypes"></div>
+      <div class="qinputs" id="gInputs"></div>
+    </div>
+
+    <button class="drun" id="gRun" type="button">▶ 生成草案</button>
+    <div class="dout" id="gOut" hidden></div>
+  </section>
+
+  <!-- 怎么搭的 -->
+  <section class="dsec">
+    <div class="dlabel"><span>怎么搭的</span></div>
+    <div class="dgrid2">
+      <div>
+        <h3>FastAPI 后端 + SwiftUI iPhone App</h3>
+        <p>后端是 FastAPI，八组接口：健康检查、认证、聊天、文件、合同、任务、权益、内购。模型走通义千问，Provider 做了抽象层，换模型不影响业务代码。</p>
+        <p>审查是长任务，所以走异步 job 队列：App 提交任务拿到 job_id，然后轮询真实进度（<code>parsing → analyzing → formatting</code>）——上面 Demo 里那几行日志用的就是后端真实的步骤名，不是编的假进度条。</p>
+        <p>客户端是 SwiftUI，历史记录用 SwiftData 存在本地。审查报告和生成的草案都能导出 Word。</p>
+      </div>
+      <div>
+        <h3>模型输出不能直接给用户</h3>
+        <p>这是整个后端花力气最多的地方。模型返回的 JSON 会先过一层校验：结构对不对、风险等级是不是合法值、原文摘录能不能在合同里定位到。</p>
+        <p>还有一条专门的检查——<b>如果模型说出「本合同无任何风险」「完全安全」这类绝对化表述，直接判定为无效输出</b>，走降级路径重新组织，而不是把这句话透传给用户。法律场景里，一个过分自信的结论比一个含糊的结论危险得多。</p>
+        <p>解析层也做了兜底：模型返回带 Markdown 代码围栏的、前后夹带解释文字的，都能把其中的 JSON 对象抠出来。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 源码 -->
+  <section class="dsec">
+    <div class="dlabel"><span>源码</span></div>
+    <a class="dbtn" href="https://github.com/1367877593-ops/qihe" target="_blank" rel="noopener">看 GitHub 仓库 ↗</a>
+  </section>
+</main>
+
+<footer><span>© 2026 ZHANG XINYU</span><span>THANK YOU FOR VISITING</span></footer>
+<script src="qihe-data.js?v=20260824-1"></script><script src="qihe.js?v=20260824-1"></script></body></html>
