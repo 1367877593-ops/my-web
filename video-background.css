@@ -48,7 +48,7 @@
 
 .video-bg-page .post,
 .video-bg-page .notes-page {
-  text-shadow: 0 1px 12px rgba(245,244,240,.34);
+  text-shadow: 0 1px 10px rgba(245,244,240,.2);
 }
 
 @media (max-width: 700px) {
