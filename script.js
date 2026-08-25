@@ -30,6 +30,24 @@ const topbar = document.getElementById('topbar'), rail = document.getElementById
 const TICKS = 34;
 if (rail) for (let i = 0; i < TICKS; i++) rail.appendChild(document.createElement('i'));
 const railTicks = rail ? [...rail.children] : [];
+const sectionNav = document.getElementById('sectionNav');
+const sectionNavLinks = sectionNav ? [...sectionNav.querySelectorAll('a[data-section]')] : [];
+const sectionNavSections = sectionNavLinks.map(link => document.getElementById(link.dataset.section)).filter(Boolean);
+
+function updateSectionNav() {
+  if (!sectionNavSections.length) return;
+  let visible = sectionNavSections[0];
+  const marker = Math.min(180, innerHeight * .28);
+  sectionNavSections.forEach(section => {
+    if (section.getBoundingClientRect().top <= marker) visible = section;
+  });
+  sectionNavLinks.forEach(link => {
+    const active = link.dataset.section === visible.id;
+    link.classList.toggle('is-active', active);
+    if (active) link.setAttribute('aria-current', 'location');
+    else link.removeAttribute('aria-current');
+  });
+}
 
 /* ── 首屏三阶段滚动插值 ────────────────────────────────────── */
 const track = document.querySelector('.hero-track'), stage = document.getElementById('heroStage'),
@@ -71,6 +89,7 @@ function paintHero(p) {
 
 function onScrollFrame() {
   topbar?.classList.toggle('scrolled', scrollY > 60);
+  updateSectionNav();
 
   if (track) {
     const span = track.offsetHeight - innerHeight;
