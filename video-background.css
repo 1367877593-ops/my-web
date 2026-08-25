@@ -1,0 +1,73 @@
+.video-bg-page {
+  background: transparent;
+  position: relative;
+  isolation: isolate;
+}
+
+.video-background {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  background: #f5f4f0;
+  pointer-events: none;
+}
+
+.video-background video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transform: scale(1.025);
+  filter: saturate(.92) brightness(1.05) contrast(.96);
+  transition: opacity 1.1s ease;
+}
+
+.video-background.is-ready video {
+  opacity: .68;
+}
+
+.video-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(245,244,240,.36), rgba(245,244,240,.5)),
+    radial-gradient(circle at 46% 18%, rgba(255,255,255,.25), transparent 52%);
+}
+
+.video-bg-page .dots {
+  opacity: .35;
+}
+
+.video-bg-page .contours {
+  opacity: .18;
+}
+
+.video-bg-page .post,
+.video-bg-page .notes-page {
+  text-shadow: 0 1px 12px rgba(245,244,240,.34);
+}
+
+@media (max-width: 700px) {
+  .video-background video {
+    object-position: 54% center;
+    transform: scale(1.04);
+  }
+
+  .video-background.is-ready video {
+    opacity: .62;
+  }
+
+  .video-background::after {
+    background: rgba(245,244,240,.48);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-background video {
+    transition: none;
+  }
+}
