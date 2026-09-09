@@ -1,0 +1,28 @@
+/* Night Repair 项目页：把线上 App 装进一个手机框里就地试用。
+   只有这一页用得上，所以不塞进 style.css。 */
+
+.nrstage{display:grid;grid-template-columns:auto 1fr;gap:clamp(28px,4vw,56px);align-items:start;margin-top:24px}
+
+/* 手机框。不画刘海 —— App 自己的顶栏就在最上面，假刘海会盖住日期和问候语 */
+.nrphone{position:relative;width:390px;padding:11px;border-radius:44px;
+  background:linear-gradient(158deg,#3a3a37,#111110 62%);
+  box-shadow:0 28px 64px rgba(10,10,10,.26),inset 0 0 0 1px rgba(255,255,255,.07)}
+.nrscreen{position:relative;height:760px;border-radius:34px;overflow:hidden;background:var(--bg)}
+.nrscreen iframe{display:block;width:100%;height:100%;border:0}
+.nrbar{position:absolute;left:50%;bottom:5px;transform:translateX(-50%);width:118px;height:4px;border-radius:99px;background:rgba(245,244,240,.28)}
+
+/* 未加载时的占位：跟另外两页的「▶ 运行内置样例」保持同一个动作 */
+.nrph{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:12px;padding:34px;text-align:center;background:var(--surface)}
+.nrph b{font-family:var(--font-cn);font-size:15px;font-weight:600}
+.nrph span{max-width:24ch;font-family:var(--font-cn);font-size:12.5px;line-height:1.75;color:var(--muted-ink)}
+.nrph em{font:600 10px var(--font-mono);font-style:normal;letter-spacing:.1em;color:var(--muted-ink)}
+
+.nrside h3{margin:0 0 14px;font-family:var(--font-cn);font-size:18px;font-weight:600}
+.nract{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:22px}
+.nract .dbtn{padding:12px 20px}
+
+@media (max-width:900px){
+  .nrstage{grid-template-columns:1fr}
+  .nrphone{width:100%;max-width:390px;margin:0 auto}
+  .nrscreen{height:min(760px,74vh)}
+}
