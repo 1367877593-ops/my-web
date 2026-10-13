@@ -1,0 +1,30 @@
+/* 项目介绍延续主站排版，线上游戏按需载入宽屏工作台。 */
+.pg-page>.head h1{font-family:var(--font-cn);font-size:clamp(36px,5.4vw,72px);line-height:1.15;color:var(--accent)}
+.pg-page>.head h1 span{display:block;margin-top:12px;font-size:.65em;letter-spacing:.04em;color:var(--ink)}
+.pg-page>.head .pg-kicker{margin:0 0 22px;font:600 11px var(--font-mono);letter-spacing:.16em;color:var(--muted-ink)}
+.pg-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:24px}
+.pg-cover{margin:0 0 clamp(48px,7vh,86px);overflow:hidden;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.pg-cover img{display:block;width:100%;height:auto}
+.pg-stages{display:grid;grid-template-columns:1fr 1fr;gap:0 22px;margin:0;padding:0;list-style:none}
+.pg-stages li{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-family:var(--font-cn);font-size:13.5px}
+.pg-stages b{font:500 11px var(--font-mono);color:var(--accent)}
+.pg-status{min-height:1.8em;margin:16px 0 20px;font-family:var(--font-cn);font-size:12.5px;line-height:1.8;color:var(--muted-ink)}
+.pg-browser{overflow:hidden;border:1px solid var(--line);border-radius:16px;background:#152c25;box-shadow:0 20px 48px rgba(10,10,10,.12)}
+.pg-chrome{display:flex;align-items:center;gap:18px;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.12);color:#e8e5d9;background:#1b2924}
+.pg-chrome span{font-size:10px;letter-spacing:4px;color:#8a968b}
+.pg-chrome b{font:500 10px var(--font-mono);letter-spacing:.1em}
+.pg-screen{position:relative;height:clamp(620px,80vh,820px)}
+.pg-screen iframe{display:block;width:100%;height:100%;border:0;background:#152c25}
+.pg-placeholder{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:20px;padding:36px;text-align:center;background:radial-gradient(ellipse at 65% 25%,#35483b,#152c25 70%);color:#f5f4ed}
+.pg-placeholder em{font:500 10px var(--font-mono);font-style:normal;letter-spacing:.16em;color:#d4c596}
+.pg-placeholder b{font-family:var(--font-cn);font-size:clamp(24px,4vw,44px);font-weight:500;line-height:1.5}
+.pg-placeholder span{max-width:30ch;font-family:var(--font-cn);font-size:13px;line-height:1.8;color:#d8ded4}
+.pg-actions .drun:disabled{cursor:default;opacity:.65}
+@media(max-width:640px){
+  .pg-stages{gap:0 14px}
+  .pg-actions{align-items:stretch;flex-direction:column}
+  .pg-actions .dbtn,.pg-actions .drun{justify-content:center;text-align:center}
+  .pg-cover{border-radius:9px}
+  .pg-screen{height:740px}
+  .pg-chrome{padding:12px;gap:12px}
+}
