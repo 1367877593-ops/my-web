@@ -41,9 +41,27 @@ window.AIGC_FORMATS = [
 /* 二级 = 主题系列。计数会跟着当前格式走 ——
    选「视频」时，「敦煌风格」旁边显示的是敦煌有几条视频，不是几件作品。
    改这里就能加/改系列。 */
-window.AIGC_SERIES = ['敦煌风格', '枫桥夜泊'];
+window.AIGC_SERIES = ['敦煌风格', '枫桥夜泊', '跨境电商宣传展示'];
 
 window.AIGC_WORKS = [
+  /* 跨境电商宣传展示 —— 原视频保留画质与声音，点开后加载 */
+  {
+    date: '2026.10.13', title: '一抹朱红 · 口红质感展示', series: '跨境电商宣传展示', type: 'video',
+    loop: false,
+    src: 'assets/aigc/cross-border/red-lipstick.mp4',
+    thumb: 'assets/aigc/cross-border/red-lipstick.jpg',
+    poster: 'assets/aigc/cross-border/red-lipstick.jpg',
+    note: '10 秒竖屏产品短片。通过黑色管身、金属结构与红色膏体的近景切换，呈现口红的材质、细节与色彩。',
+  },
+  {
+    date: '2026.10.13', title: '静享此刻 · 头戴式耳机展示', series: '跨境电商宣传展示', type: 'video',
+    wide: true, loop: false,
+    src: 'assets/aigc/cross-border/soft-light-headphones.mp4',
+    thumb: 'assets/aigc/cross-border/soft-light-headphones.jpg',
+    poster: 'assets/aigc/cross-border/soft-light-headphones.jpg',
+    note: '10 秒横屏产品短片。以暖灰色背景和柔和光影，呈现头戴式耳机的整体轮廓、耳罩纹理与头梁细节。',
+  },
+
   /* 敦煌成片 —— 41 秒，1080p / 4000kbps。长片不循环，放完就停 */
   {
     date: '2026.08.16', title: '驼队过壁画峡谷', series: '敦煌风格', type: 'video',
