@@ -207,6 +207,7 @@ a.pick:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 
 .project-grid h3{margin:9px 0 14px;font-family:var(--font-cn);font-size:clamp(20px,2vw,28px);line-height:1.28;color:var(--accent)}
 .project-grid p{margin:0;font-family:var(--font-cn);font-size:clamp(13px,1.05vw,15px);line-height:1.85;color:var(--muted-ink)}
 .project-grid em{margin-top:18px;font:500 10px var(--font-mono);font-style:normal;letter-spacing:.06em;color:var(--muted-ink)}
+.project-copy em{margin-top:auto;padding-top:18px}
 .project-grid .deck-tag,.project-grid .deck-link{position:static;align-self:flex-start;margin-top:14px;padding:0;border:0;border-radius:0;font:600 11px var(--font-mono);letter-spacing:.06em;color:var(--muted-ink)}
 .project-grid .deck-link{color:var(--accent);transition:transform .25s,color .25s}
 .project-grid .deck-link:hover{color:var(--ink);transform:translateX(4px)}
